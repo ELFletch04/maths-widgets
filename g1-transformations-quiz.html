@@ -81,10 +81,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #fafafa;
+      background: #ffffff;
       border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      padding: 8px;
+      border-radius: 8px;
+      padding: 10px;
     }
     svg {
       max-width: 100%;
@@ -209,7 +209,7 @@
     <div class="question-text" id="q-text"></div>
 
     <div class="svg-container">
-      <svg id="grid-svg" width="300" height="300" viewBox="0 0 300 300"></svg>
+      <svg id="grid-svg" width="320" height="320" viewBox="0 0 320 320"></svg>
     </div>
 
     <div class="options-grid" id="options-wrap"></div>
@@ -235,10 +235,11 @@
     {
       diff: "easy",
       q: "Describe the single transformation that maps triangle A onto triangle B.",
+      bounds: { xMin: -5, xMax: 4, yMin: 0, yMax: 6, step: 1 },
       grid: {
         shapes: [
-          { pts: [[1,1], [3,1], [1,4]], fill: "#f8fafc", stroke: "#1e293b", label: "A", lx: 1.6, ly: 1.9 },
-          { pts: [[-4,2], [-2,2], [-4,5]], fill: "#e0f2fe", stroke: "#0284c7", label: "B", lx: -3.4, ly: 2.9 }
+          { pts: [[1,1], [3,1], [1,4]], fill: "rgba(37, 99, 235, 0.16)", stroke: "#2563eb", label: "A", lx: 1.6, ly: 1.9 },
+          { pts: [[-4,2], [-2,2], [-4,5]], fill: "rgba(22, 163, 74, 0.16)", stroke: "#16a34a", label: "B", lx: -3.4, ly: 2.9 }
         ]
       },
       options: [
@@ -248,16 +249,16 @@
         "Translation by vector ( 1, -5 )"
       ],
       ans: 0,
-      expl: "Reading the shift from (1, 1) to (-4, 2): horizontal shift is -4 - 1 = -5, vertical shift is 2 - 1 = 1."
+      expl: "Vertex (1, 1) shifts to (-4, 2): horizontal translation = -4 - 1 = -5, vertical translation = 2 - 1 = 1."
     },
     {
       diff: "easy",
       q: "Describe the single transformation that maps triangle A onto triangle B.",
+      bounds: { xMin: -5, xMax: 5, yMin: 0, yMax: 4, step: 1 },
       grid: {
-        mirrorLine: { type: "vertical", val: 0 },
         shapes: [
-          { pts: [[1,1], [4,1], [1,3]], fill: "#f8fafc", stroke: "#1e293b", label: "A", lx: 1.8, ly: 1.6 },
-          { pts: [[-1,1], [-4,1], [-1,3]], fill: "#e0f2fe", stroke: "#0284c7", label: "B", lx: -2.3, ly: 1.6 }
+          { pts: [[1,1], [4,1], [1,3]], fill: "rgba(37, 99, 235, 0.16)", stroke: "#2563eb", label: "A", lx: 1.8, ly: 1.6 },
+          { pts: [[-1,1], [-4,1], [-1,3]], fill: "rgba(22, 163, 74, 0.16)", stroke: "#16a34a", label: "B", lx: -2.4, ly: 1.6 }
         ]
       },
       options: [
@@ -267,15 +268,16 @@
         "Translation by vector ( -5, 0 )"
       ],
       ans: 1,
-      expl: "The shapes are mirror opposites reflected across the line x = 0 (the y-axis)."
+      expl: "The two triangles are identical in size and vertically aligned, reflected symmetrically across the y-axis (line x = 0)."
     },
     {
       diff: "easy",
       q: "Describe the single transformation that maps shape A onto shape B.",
+      bounds: { xMin: -3, xMax: 4, yMin: 0, yMax: 4, step: 1 },
       grid: {
         shapes: [
-          { pts: [[1,1], [3,1], [1,2]], fill: "#f8fafc", stroke: "#1e293b", label: "A", lx: 1.6, ly: 1.3 },
-          { pts: [[-1,1], [-1,3], [-2,1]], fill: "#e0f2fe", stroke: "#0284c7", label: "B", lx: -1.4, ly: 1.6 }
+          { pts: [[1,1], [3,1], [1,2]], fill: "rgba(37, 99, 235, 0.16)", stroke: "#2563eb", label: "A", lx: 1.6, ly: 1.3 },
+          { pts: [[-1,1], [-1,3], [-2,1]], fill: "rgba(22, 163, 74, 0.16)", stroke: "#16a34a", label: "B", lx: -1.4, ly: 1.6 }
         ]
       },
       options: [
@@ -285,16 +287,17 @@
         "Reflection in the line y = -x"
       ],
       ans: 2,
-      expl: "Point (1,1) rotates to (-1,1) and (3,1) rotates to (-1,3). The rule (x, y) → (-y, x) indicates a 90° anticlockwise rotation about (0, 0)."
+      expl: "Vertex (1, 1) maps to (-1, 1) and (3, 1) maps to (-1, 3). Following (x, y) → (-y, x), this is a 90° anticlockwise rotation about (0, 0)."
     },
     {
       diff: "medium",
       q: "Describe the single transformation that maps triangle A onto triangle B.",
+      bounds: { xMin: 0, xMax: 4, yMin: -7, yMax: 5, step: 1 },
       grid: {
         mirrorLine: { type: "horizontal", val: -1 },
         shapes: [
-          { pts: [[1,1], [3,1], [1,4]], fill: "#f8fafc", stroke: "#1e293b", label: "A", lx: 1.6, ly: 1.9 },
-          { pts: [[1,-3], [3,-3], [1,-6]], fill: "#e0f2fe", stroke: "#0284c7", label: "B", lx: 1.6, ly: -3.9 }
+          { pts: [[1,1], [3,1], [1,4]], fill: "rgba(37, 99, 235, 0.16)", stroke: "#2563eb", label: "A", lx: 1.6, ly: 1.9 },
+          { pts: [[1,-3], [3,-3], [1,-6]], fill: "rgba(22, 163, 74, 0.16)", stroke: "#16a34a", label: "B", lx: 1.6, ly: -4.2 }
         ]
       },
       options: [
@@ -304,15 +307,16 @@
         "Translation by vector ( 0, -4 )"
       ],
       ans: 1,
-      expl: "A vertex at y = 1 maps to y = -3. The midpoint is y = (1 + (-3)) / 2 = -1, so the mirror line is y = -1."
+      expl: "The horizontal base at y = 1 reflects to y = -3. The midpoint line between them is y = (1 + (-3)) / 2 = -1."
     },
     {
       diff: "medium",
       q: "Describe the single transformation that maps triangle A onto triangle B.",
+      bounds: { xMin: -4, xMax: 4, yMin: -3, yMax: 3, step: 1 },
       grid: {
         shapes: [
-          { pts: [[1,1], [3,1], [1,2]], fill: "#f8fafc", stroke: "#1e293b", label: "A", lx: 1.6, ly: 1.3 },
-          { pts: [[-1,-1], [-3,-1], [-1,-2]], fill: "#e0f2fe", stroke: "#0284c7", label: "B", lx: -1.8, ly: -1.3 }
+          { pts: [[1,1], [3,1], [1,2]], fill: "rgba(37, 99, 235, 0.16)", stroke: "#2563eb", label: "A", lx: 1.6, ly: 1.3 },
+          { pts: [[-1,-1], [-3,-1], [-1,-2]], fill: "rgba(22, 163, 74, 0.16)", stroke: "#16a34a", label: "B", lx: -1.9, ly: -1.3 }
         ]
       },
       options: [
@@ -322,15 +326,16 @@
         "Translation by vector ( -2, -2 )"
       ],
       ans: 0,
-      expl: "Each vertex (x, y) maps to (-x, -y), which represents a rotation of 180° about (0, 0)."
+      expl: "Each coordinate (x, y) maps to (-x, -y). A straight line through opposite vertices passes directly through the origin (0, 0)."
     },
     {
       diff: "medium",
       q: "Describe the single transformation that maps triangle A onto triangle B.",
+      bounds: { xMin: -3, xMax: 4, yMin: 0, yMax: 4, step: 1 },
       grid: {
         shapes: [
-          { pts: [[1,1], [3,1], [1,2]], fill: "#f8fafc", stroke: "#1e293b", label: "A", lx: 1.6, ly: 1.3 },
-          { pts: [[-1,3], [-1,1], [-2,3]], fill: "#e0f2fe", stroke: "#0284c7", label: "B", lx: -1.4, ly: 2.3 }
+          { pts: [[1,1], [3,1], [1,2]], fill: "rgba(37, 99, 235, 0.16)", stroke: "#2563eb", label: "A", lx: 1.6, ly: 1.3 },
+          { pts: [[-1,3], [-1,1], [-2,3]], fill: "rgba(22, 163, 74, 0.16)", stroke: "#16a34a", label: "B", lx: -1.5, ly: 2.3 }
         ]
       },
       options: [
@@ -340,16 +345,17 @@
         "Rotation 180° about (0, 2)"
       ],
       ans: 1,
-      expl: "Testing centre (0, 2): (1, 1) relative vector is (1, -1). Rotating 90° clockwise gives (-1, -1), which leads to (0+(-1), 2+(-1)) = (-1, 1). This matches the corresponding point."
+      expl: "Centred at (0, 2): (1, 1) has relative vector (1, -1). Rotating 90° clockwise gives (-1, -1), placing the image at (0 + (-1), 2 + (-1)) = (-1, 1)."
     },
     {
       diff: "medium",
       q: "Describe the single transformation that maps shape A onto shape B.",
+      bounds: { xMin: 0, xMax: 5, yMin: 0, yMax: 5, step: 1 },
       grid: {
         mirrorLine: { type: "diag", m: 1, c: 0 },
         shapes: [
-          { pts: [[1,2], [1,4], [2,2]], fill: "#f8fafc", stroke: "#1e293b", label: "A", lx: 1.3, ly: 2.6 },
-          { pts: [[2,1], [4,1], [2,2]], fill: "#e0f2fe", stroke: "#0284c7", label: "B", lx: 2.6, ly: 1.3 }
+          { pts: [[1,2], [1,4], [2,2]], fill: "rgba(37, 99, 235, 0.16)", stroke: "#2563eb", label: "A", lx: 1.25, ly: 2.7 },
+          { pts: [[2,1], [4,1], [2,2]], fill: "rgba(22, 163, 74, 0.16)", stroke: "#16a34a", label: "B", lx: 2.7, ly: 1.25 }
         ]
       },
       options: [
@@ -359,15 +365,16 @@
         "Translation by vector ( 1, -1 )"
       ],
       ans: 0,
-      expl: "The coordinates swap: (1, 2) becomes (2, 1) and (1, 4) becomes (4, 1). This is reflection in the line y = x."
+      expl: "The x and y coordinates are inverted: (1, 2) becomes (2, 1) and (1, 4) becomes (4, 1), which corresponds to reflection in the line y = x."
     },
     {
       diff: "hard",
       q: "Describe the single transformation that maps triangle A onto triangle B.",
+      bounds: { xMin: -5, xMax: 3, yMin: 0, yMax: 7, step: 1 },
       grid: {
         shapes: [
-          { pts: [[1,1], [2,1], [1,3]], fill: "#f8fafc", stroke: "#1e293b", label: "A", lx: 1.3, ly: 1.6 },
-          { pts: [[-2,2], [0,2], [-2,6]], fill: "#e0f2fe", stroke: "#0284c7", label: "B", lx: -1.3, ly: 3.2 }
+          { pts: [[1,1], [2,1], [1,3]], fill: "rgba(37, 99, 235, 0.16)", stroke: "#2563eb", label: "A", lx: 1.25, ly: 1.6 },
+          { pts: [[-2,2], [0,2], [-2,6]], fill: "rgba(22, 163, 74, 0.16)", stroke: "#16a34a", label: "B", lx: -1.4, ly: 3.2 }
         ]
       },
       options: [
@@ -377,15 +384,16 @@
         "Translation by vector ( -3, 1 )"
       ],
       ans: 1,
-      expl: "Base width doubles from 1 to 2, so scale factor k = 2. Ray through (1,1) and (-2,2): x - 2(x - cx) = -2 => cx = -4, cy = 0. Centre is (-4, 0)."
+      expl: "Side lengths double (scale factor 2). Rays connecting corresponding points intersect at the centre of enlargement (-4, 0)."
     },
     {
       diff: "hard",
       q: "Describe the single transformation that maps triangle A onto triangle B.",
+      bounds: { xMin: -4, xMax: 4, yMin: -3, yMax: 3, step: 1 },
       grid: {
         shapes: [
-          { pts: [[1,1], [3,1], [1,2]], fill: "#f8fafc", stroke: "#1e293b", label: "A", lx: 1.6, ly: 1.3 },
-          { pts: [[-1,-1], [-3,-1], [-1,-2]], fill: "#e0f2fe", stroke: "#0284c7", label: "B", lx: -1.8, ly: -1.3 }
+          { pts: [[1,1], [3,1], [1,2]], fill: "rgba(37, 99, 235, 0.16)", stroke: "#2563eb", label: "A", lx: 1.6, ly: 1.3 },
+          { pts: [[-1,-1], [-3,-1], [-1,-2]], fill: "rgba(22, 163, 74, 0.16)", stroke: "#16a34a", label: "B", lx: -1.9, ly: -1.3 }
         ]
       },
       options: [
@@ -395,15 +403,16 @@
         "Reflection in the origin"
       ],
       ans: 0,
-      expl: "An inverted shape with equal dimensions through the origin represents an enlargement of scale factor -1 with centre (0, 0)."
+      expl: "An inverted shape of equal dimensions through the origin represents an enlargement of scale factor -1 with centre (0, 0)."
     },
     {
       diff: "hard",
-      q: "Triangle A is reflected in the y-axis, then translated by vector ( 0, -3 ) to give triangle B. Which single matrix or combined transformation maps A to B?",
+      q: "Triangle A is reflected in the y-axis, then translated by vector ( 0, -3 ) to give triangle B. Which combined transformation maps A to B?",
+      bounds: { xMin: -4, xMax: 4, yMin: -3, yMax: 4, step: 1 },
       grid: {
         shapes: [
-          { pts: [[1,1], [3,1], [1,3]], fill: "#f8fafc", stroke: "#1e293b", label: "A", lx: 1.6, ly: 1.6 },
-          { pts: [[-1,-2], [-3,-2], [-1,0]], fill: "#e0f2fe", stroke: "#0284c7", label: "B", lx: -1.8, ly: -1.4 }
+          { pts: [[1,1], [3,1], [1,3]], fill: "rgba(37, 99, 235, 0.16)", stroke: "#2563eb", label: "A", lx: 1.6, ly: 1.6 },
+          { pts: [[-1,-2], [-3,-2], [-1,0]], fill: "rgba(22, 163, 74, 0.16)", stroke: "#16a34a", label: "B", lx: -1.9, ly: -1.4 }
         ]
       },
       options: [
@@ -413,7 +422,7 @@
         "Translation by ( -2, -3 )"
       ],
       ans: 0,
-      expl: "A(1,1) reflected in x=0 gives (-1,1). Translating by (0,-3) gives (-1, -2), matching triangle B."
+      expl: "Vertex (1,1) reflected across x = 0 produces (-1, 1). Adding translation vector (0, -3) lands on (-1, -2), matching triangle B."
     }
   ];
 
@@ -435,148 +444,42 @@
   const scoreSummary = document.getElementById("score-summary");
   const retryBtn = document.getElementById("retry-btn");
 
-  function toSvgX(x) { return 150 + x * 20; }
-  function toSvgY(y) { return 150 - y * 20; }
+  function renderGrid(data, b) {
+    const pad = 24;
+    const w = 320, h = 320;
+    const xSpan = b.xMax - b.xMin;
+    const ySpan = b.yMax - b.yMin;
 
-  function renderGrid(data) {
+    function toSvgX(x) {
+      return pad + ((x - b.xMin) / xSpan) * (w - 2 * pad);
+    }
+    function toSvgY(y) {
+      return h - pad - ((y - b.yMin) / ySpan) * (h - 2 * pad);
+    }
+
     let out = '';
-    // Distinct grey grid lines
-    for (let i = -7; i <= 7; i++) {
-      let x = toSvgX(i);
-      let y = toSvgY(i);
-      out += `<line x1="${x}" y1="10" x2="${x}" y2="290" stroke="#cbd5e1" stroke-width="1" />`;
-      out += `<line x1="10" y1="${y}" x2="290" y2="${y}" stroke="#cbd5e1" stroke-width="1" />`;
+
+    // Clean, crisp grid lines (matching reference style)
+    for (let x = b.xMin; x <= b.xMax; x += b.step) {
+      const sx = toSvgX(x);
+      out += `<line x1="${sx}" y1="${toSvgY(b.yMax)}" x2="${sx}" y2="${toSvgY(b.yMin)}" stroke="#94a3b8" stroke-width="1.2" opacity="0.8" />`;
+    }
+    for (let y = b.yMin; y <= b.yMax; y += b.step) {
+      const sy = toSvgY(y);
+      out += `<line x1="${toSvgX(b.xMin)}" y1="${sy}" x2="${toSvgX(b.xMax)}" y2="${sy}" stroke="#94a3b8" stroke-width="1.2" opacity="0.8" />`;
     }
 
-    // Axes
-    out += `<line x1="10" y1="150" x2="290" y2="150" stroke="#334155" stroke-width="1.75" />`;
-    out += `<line x1="150" y1="10" x2="150" y2="290" stroke="#334155" stroke-width="1.75" />`;
-
-    // Axis numbers
-    for (let i = -6; i <= 6; i++) {
-      if (i !== 0) {
-        out += `<text x="${toSvgX(i)}" y="163" font-size="9" fill="#475569" text-anchor="middle">${i}</text>`;
-        out += `<text x="142" y="${toSvgY(i) + 3}" font-size="9" fill="#475569" text-anchor="end">${i}</text>`;
-      }
+    // Bold primary axes if inside or on bounds
+    if (b.xMin <= 0 && b.xMax >= 0) {
+      const sx0 = toSvgX(0);
+      out += `<line x1="${sx0}" y1="${toSvgY(b.yMax) - 6}" x2="${sx0}" y2="${toSvgY(b.yMin) + 6}" stroke="#1e293b" stroke-width="2.5" />`;
     }
-    out += `<text x="142" y="163" font-size="9" fill="#475569" text-anchor="end">0</text>`;
-
-    // Optional Mirror Line
-    if (data.mirrorLine) {
-      const ml = data.mirrorLine;
-      if (ml.type === "vertical") {
-        let x = toSvgX(ml.val);
-        out += `<line x1="${x}" y1="10" x2="${x}" y2="290" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,4" />`;
-      } else if (ml.type === "horizontal") {
-        let y = toSvgY(ml.val);
-        out += `<line x1="10" y1="${y}" x2="290" y2="${y}" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,4" />`;
-      } else if (ml.type === "diag") {
-        let x1 = toSvgX(-6), y1 = toSvgY(-6 * ml.m + ml.c);
-        let x2 = toSvgX(6), y2 = toSvgY(6 * ml.m + ml.c);
-        out += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,4" />`;
-      }
+    if (b.yMin <= 0 && b.yMax >= 0) {
+      const sy0 = toSvgY(0);
+      out += `<line x1="${toSvgX(b.xMin) - 6}" y1="${sy0}" x2="${toSvgX(b.xMax) + 6}" y2="${sy0}" stroke="#1e293b" stroke-width="2.5" />`;
     }
 
-    // Render Shapes
-    data.shapes.forEach(shape => {
-      let ptsStr = shape.pts.map(p => `${toSvgX(p[0])},${toSvgY(p[1])}`).join(" ");
-      out += `<polygon points="${ptsStr}" fill="${shape.fill}" stroke="${shape.stroke}" stroke-width="2" />`;
-      if (shape.label) {
-        out += `<text x="${toSvgX(shape.lx)}" y="${toSvgY(shape.ly)}" font-size="13" font-weight="bold" fill="${shape.stroke}">${shape.label}</text>`;
-      }
-    });
-
-    svg.innerHTML = out;
-  }
-
-  function loadQuestion() {
-    answered = false;
-    nextBtn.style.display = "none";
-    feedWrap.className = "feedback-box";
-    feedWrap.style.display = "none";
-    feedWrap.textContent = "";
-
-    const item = questions[currQ];
-    qCount.textContent = `Question ${currQ + 1} of ${questions.length}`;
-    qText.textContent = item.q;
-
-    badge.className = `badge badge-${item.diff}`;
-    badge.textContent = item.diff;
-    progBar.style.width = `${((currQ) / questions.length) * 100}%`;
-
-    renderGrid(item.grid);
-
-    optWrap.innerHTML = "";
-    item.options.forEach((opt, idx) => {
-      const btn = document.createElement("button");
-      btn.className = "option-btn";
-      btn.textContent = opt;
-      btn.addEventListener("click", () => handleSelect(idx));
-      optWrap.appendChild(btn);
-    });
-  }
-
-  function handleSelect(selectedIdx) {
-    if (answered) return;
-    answered = true;
-
-    const item = questions[currQ];
-    const buttons = optWrap.querySelectorAll(".option-btn");
-    buttons.forEach(b => b.disabled = true);
-
-    if (selectedIdx === item.ans) {
-      score++;
-      buttons[selectedIdx].classList.add("correct");
-      feedWrap.textContent = "Correct! " + item.expl;
-      feedWrap.className = "feedback-box correct";
-    } else {
-      buttons[selectedIdx].classList.add("incorrect");
-      buttons[item.ans].classList.add("correct");
-      feedWrap.textContent = "Incorrect. " + item.expl;
-      feedWrap.className = "feedback-box incorrect";
-    }
-
-    nextBtn.style.display = "inline-block";
-    if (currQ === questions.length - 1) {
-      nextBtn.textContent = "Show Final Score";
-    } else {
-      nextBtn.textContent = "Next Question";
-    }
-  }
-
-  function handleNext() {
-    if (currQ < questions.length - 1) {
-      currQ++;
-      loadQuestion();
-    } else {
-      progBar.style.width = "100%";
-      quizView.style.display = "none";
-      scoreView.style.display = "flex";
-      scoreVal.textContent = `You scored ${score} / ${questions.length}`;
-      let pct = Math.round((score / questions.length) * 100);
-      if (pct >= 80) {
-        scoreSummary.textContent = "Excellent work! You have mastered GCSE geometric transformations.";
-      } else if (pct >= 50) {
-        scoreSummary.textContent = "Good effort! Revise fractional/negative enlargements and vector signs for top marks.";
-      } else {
-        scoreSummary.textContent = "Keep practicing! Review reflection lines, coordinates, and rotation centers.";
-      }
-    }
-  }
-
-  function handleReset() {
-    score = 0;
-    currQ = 0;
-    scoreView.style.display = "none";
-    quizView.style.display = "flex";
-    loadQuestion();
-  }
-
-  nextBtn.addEventListener("click", handleNext);
-  retryBtn.addEventListener("click", handleReset);
-
-  loadQuestion();
-})();
-</script>
-</body>
-</html>
+    // Numbering (every 2 units, matching textbook diagrams)
+    for (let x = b.xMin; x <= b.xMax; x += b.step) {
+      if (x % 2 === 0 && x !== 0) {
+        let sy = (b.yMin <= 0 && b.yMax >=
