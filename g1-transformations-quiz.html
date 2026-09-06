@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transformations Quiz - GCSE Maths</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: transparent;
+      color: #0f172a;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 16px;
+      min-height: 100vh;
+    }
+
+    .quiz-card {
+      width: 100%;
+      max-width: 540px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      padding: 24px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      gap: 12px;
+    }
+
+    .title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.3;
+    }
+
+    .badge-wrap {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .tier-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .tier-easy {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+
+    .tier-medium {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    .tier-hard {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    .q-counter {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #64748b;
+      background: #f1f5f9;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 4px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: #2563eb;
+      width: 10%;
+      transition: width 0.3s ease;
+    }
+
+    .question-prompt {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 14px;
+      line-height: 1.45;
+    }
+
+    .diagram-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    .grid-svg {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+      display: block;
+    }
+
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 6px;
+      color: #475569;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-box {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+    }
+
+    .legend-obj {
+      background: rgba(37, 99, 235, 0.2);
+      border: 1.5px solid #2563eb;
+    }
+
+    .legend-img {
+      background: rgba(22, 163, 74, 0.2);
+      border: 1.5px solid #16a34a;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .option-btn {
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #1e293b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.15s ease;
+      line-height: 1.35;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: #94a3b8;
+      background: #f8fafc;
+    }
+
+    .option-btn.correct {
+      background: #ecfdf5 !important;
+      border-color: #10b981 !important;
+      color: #065f46 !important;
+      font-weight: 600;
+    }
+
+    .option-btn.incorrect {
+      background: #fef2f2 !important;
+      border-color: #f87171 !important;
+      color: #991b1b !important;
+    }
+
+    .option-btn:disabled {
+      cursor: default;
+    }
+
+    .vector-bracket {
+      display: inline-flex;
+      align-items: center;
+      vertical-align: middle;
+      font-size: 0.9rem;
+      line-height: 1.1;
+      padding: 0 2px;
+      position: relative;
+    }
+
+    .vector-inner {
+      display: inline-flex;
+      flex-direction: column;
+      text-align: center;
+      padding: 0 4px;
+      border-left: 1.5px solid currentColor;
+      border-right: 1.5px solid currentColor;
+      border-radius: 3px;
+    }
+
+    .feedback-box {
+      font-size: 0.875rem;
+      font-weight: 500;
+      min-height: 22px;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    .feedback-box.success {
+      color: #16a34a;
+    }
+
+    .feedback-box.error {
+      color: #dc2626;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .btn-primary {
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 9px 18px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      background: #1e293b;
+    }
+
+    .summary-view {
+      text-align: center;
+      padding: 16px 8px;
+    }
+
+    .summary-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+
+    .summary-score {
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: #2563eb;
+      margin-bottom: 12px;
+    }
+
+    .summary-text {
+      font-size: 0.95rem;
+      color: #475569;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-card">
+    <div class="header">
+      <h1 class="title">Transformations Practice</h1>
+      <div class="badge-wrap">
+        <span id="tier-badge" class="tier-badge tier-easy">Easy</span>
+        <span id="q-counter" class="q-counter">1 / 10</span>
+      </div>
+    </div>
+
+    <div class="progress-bar-bg">
+      <div id="progress-bar" class="progress-bar-fill"></div>
+    </div>
+
+    <div id="quiz-screen">
+      <div id="prompt-text" class="question-prompt">Question text goes here.</div>
+
+      <div class="diagram-container">
+        <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
+          <svg id="grid-svg" class="grid-svg" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+            </svg>
+          <div class="legend">
+            <div class="legend-item"><span class="legend-box legend-obj"></span> Shape A (Object)</div>
+            <div class="legend-item"><span class="legend-box legend-img"></span> Shape B (Image)</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="options-container" class="options-grid">
+        </div>
+
+      <div id="feedback-message" class="feedback-box"></div>
+
+      <div class="actions">
+        <button id="next-btn" class="btn-primary" type="button" style="display: none;">Next Question</button>
+      </div>
+    </div>
+
+    <div id="summary-screen" class="summary-view" style="display: none;">
+      <h2 class="summary-title">Quiz Complete!</h2>
+      <div id="final-score" class="summary-score">0 / 10</div>
+      <p id="summary-comment" class="summary-text">Well done on completing the practice set.</p>
+      <button id="restart-btn" class="btn-primary" type="button">Try Again</button>
+    </div>
+  </div>
+
+  <script>
+    function renderVectorHTML(x, y) {
+      return '<span class="vector-bracket"><span class="vector-inner"><span>' + x + '</span><span>' + y + '</span></span></span>';
+    }
+
+    const quizData = [
+      {
+        id: 1,
+        tier: "Easy",
+        prompt: "Describe fully the single transformation that maps Shape A onto Shape B:",
+        minX: -1, maxX: 7, minY: -1, maxY: 7,
+        obj: [[1, 2], [3, 2], [1, 5]],
+        img: [[4, 3], [6, 3], [4, 6]],
+        options: [
+          { text: "Translation by " + renderVectorHTML(3, 1), correct: true },
+          { text: "Translation by " + renderVectorHTML(1, 3), correct: false },
+          { text: "Translation by " + renderVectorHTML(-3, -1), correct: false },
+          { text: "Reflection in the line x = 3", correct: false }
+        ],
+        explanation: "Every vertex moves 3 units right (+3) and 1 unit up (+1)."
+      },
+      {
+        id: 2,
+        tier: "Easy",
+        prompt: "Describe fully the single transformation that maps Shape A onto Shape B:",
+        minX: -4, maxX: 4, minY: -1, maxY: 7,
+        obj: [[1, 1], [3, 1], [1, 4]],
+        img: [[-1, 1], [-3, 1], [-1, 4]],
+        options: [
+          { text: "Reflection in the y-axis (line x = 0)", correct: true },
+          { text: "Reflection in the x-axis (line y = 0)", correct: false },
+          { text: "Translation by " + renderVectorHTML(-2, 0), correct: false },
+          { text: "Rotation 90° clockwise about (0,0)", correct: false }
+        ],
+        explanation: "The vertices flip horizontally across the vertical axis x = 0 (the y-axis)."
+      },
+      {
+        id: 3,
+        tier: "Easy",
+        prompt: "Describe fully the single transformation that maps Shape A onto Shape B:",
+        minX: -4, maxX: 4, minY: -4, maxY: 4,
+        obj: [[1, 1], [3, 1], [1, 3]],
+        img: [[-1, 1], [-1, 3], [-3, 1]],
+        options: [
+          { text: "Rotation 90° anticlockwise about (0,0)", correct: true },
+          { text: "Rotation 90° clockwise about (0,0)", correct: false },
+          { text: "Rotation 180° about (0,0)", correct: false },
+          { text: "Reflection in the line y = -x", correct: false }
+        ],
+        explanation: "(x, y) becomes (-y, x), representing a 90° anticlockwise rotation about the origin (0,0)."
+      },
+      {
+        id: 4,
+        tier: "Medium",
+        prompt: "Describe fully the single transformation that maps Shape A onto Shape B:",
+        minX: -1, maxX: 7, minY: -1, maxY: 7,
+        obj: [[1, 1], [2, 1], [1, 3]],
+        img: [[1, 1], [3, 1], [1, 5]],
+        options: [
+          { text: "Enlargement by scale factor 2, centre (1, 1)", correct: true },
+          { text: "Enlargement by scale factor 2, centre (0, 0)", correct: false },
+          { text: "Enlargement by scale factor 1/2, centre (1, 1)", correct: false },
+          { text: "Translation by " + renderVectorHTML(0, 2), correct: false }
+        ],
+        explanation: "Side lengths double (base is 2 instead of 1), and vertex (1,1) is invariant, making it the centre of enlargement."
+      },
+      {
+        id: 5,
+        tier: "Medium",
+        prompt: "Describe fully the single transformation that maps Shape A onto Shape B:",
+        minX: -1, maxX: 7, minY: -1, maxY: 7,
+        obj: [[1, 2], [2, 2], [1, 4]],
+        img: [[5, 2], [4, 2], [5, 4]],
+        options: [
+          { text: "Reflection in the line x = 3", correct: true },
+          { text: "Reflection in the line y = 3", correct: false },
+          { text: "Reflection in the line x = 2.5", correct: false },
+          { text: "Translation by " + renderVectorHTML(4, 0), correct: false }
+        ],
+        explanation: "The mirror line is the vertical line halfway between x = 1 and x = 5, which is x = 3."
+      },
+      {
+        id: 6,
+        tier: "Medium",
+        prompt: "Describe fully the single transformation that maps Shape A onto Shape B:",
+        minX: -1, maxX: 7, minY: -1, maxY: 7,
+        obj: [[2, 4], [4, 4], [2, 6]],
+        img: [[4, 2], [4, 4], [6, 2]],
+        options: [
+          { text: "Rotation 90° clockwise about (2, 2)", correct: true },
+          { text: "Rotation 90° anticlockwise about (2, 2)", correct: false },
+          { text: "Rotation 90° clockwise about (0, 0)", correct: false },
+          { text: "Reflection in the line y = x", correct: false }
+        ],
+        explanation: "Tracing rays from (2, 2) shows perpendicular clockwise turning by 90°."
+      },
+      {
+        id: 7,
+        tier: "Medium",
+        prompt: "Describe fully the single transformation that maps Shape A onto Shape B:",
+        minX: -1, maxX: 7, minY: -1, maxY: 7,
+        obj: [[1, 2], [1, 4], [2, 4]],
+        img: [[2, 1], [4, 1], [4, 2]],
+        options: [
+          { text: "Reflection in the line y = x", correct: true },
+          { text: "Reflection in the line y = -x", correct: false },
+          { text: "Rotation 90° clockwise about (0,0)", correct: false },
+          { text: "Enlargement by scale factor 1, centre (0,0)", correct: false }
+        ],
+        explanation: "Coordinates swap: (1, 2) -> (2, 1) and (1, 4) -> (4, 1), characteristic of reflection in y = x."
+      },
+      {
+        id: 8,
+        tier: "Hard",
+        prompt: "Describe fully the single transformation that maps Shape A onto Shape B:",
+        minX: -1, maxX: 7, minY: -1, maxY: 7,
+        obj: [[2, 2], [6, 2], [2, 6]],
+        img: [[1, 1], [3, 1], [1, 3]],
+        options: [
+          { text: "Enlargement by scale factor 1/2, centre (0, 0)", correct: true },
+          { text: "Enlargement by scale factor 2, centre (0, 0)", correct: false },
+          { text: "Enlargement by scale factor 1/2, centre (2, 2)", correct: false },
+          { text: "Translation by " + renderVectorHTML(-1, -1), correct: false }
+        ],
+        explanation: "Side lengths halve from 4 to 2, and lines connecting corresponding vertices intersect at (0, 0)."
+      },
+      {
+        id: 9,
+        tier: "Hard",
+        prompt: "Describe fully the single transformation that maps Shape A onto Shape B:",
+        minX: -4, maxX: 4, minY: -4, maxY: 4,
+        obj: [[1, 1], [2, 1], [1, 3]],
+        img: [[-2, -2], [-4, -2], [-2, -6]],
+        options: [
+          { text: "Enlargement by scale factor -2, centre (0, 0)", correct: true },
+          { text: "Enlargement by scale factor 2, centre (0, 0)", correct: false },
+          { text: "Rotation 180° about (0,0)", correct: false },
+          { text: "Enlargement by scale factor -1/2, centre (0, 0)", correct: false }
+        ],
+        explanation: "The shape doubles in dimensions and is inverted through the origin: (x, y) -> (-2x, -2y)."
+      },
+      {
+        id: 10,
+        tier: "Hard",
+        prompt: "Shape A is reflected in the x-axis, then translated by " + renderVectorHTML(0, 2) + ". What is the resulting single transformation to map Shape A directly onto final Shape B?",
+        minX: -4, maxX: 4, minY: -4, maxY: 4,
+        obj: [[1, 1], [3, 1], [1, 3]],
+        img: [[1, 1], [3, 1], [1, -1]],
+        options: [
+          { text: "Reflection in the line y = 1", correct: true },
+          { text: "Reflection in the line y = 2", correct: false },
+          { text: "Rotation 180° about (2, 1)", correct: false },
+          { text: "Translation by " + renderVectorHTML(0, -2), correct: false }
+        ],
+        explanation: "Reflecting in y = 0 sends y to -y. Shifting up by 2 sends y to -y + 2. This is equivalent to reflection in y = 1."
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    const tierBadge = document.getElementById("tier-badge");
+    const qCounter = document.getElementById("q-counter");
+    const progressBar = document.getElementById("progress-bar");
+    const promptText = document.getElementById("prompt-text");
+    const gridSvg = document.getElementById("grid-svg");
+    const optionsContainer = document.getElementById("options-container");
+    const feedbackMessage = document.getElementById("feedback-message");
+    const nextBtn = document.getElementById("next-btn");
+    const quizScreen = document.getElementById("quiz-screen");
+    const summaryScreen = document.getElementById("summary-screen");
+    const finalScore = document.getElementById("final-score");
+    const summaryComment = document.getElementById("summary-comment");
+    const restartBtn = document.getElementById("restart-btn");
+
+    function renderGrid(q) {
+      const svgSize = 240;
+      const pad = 24;
+      const usable = svgSize - 2 * pad;
+      const rangeX = q.maxX - q.minX;
+      const rangeY = q.maxY - q.minY;
+
+      function toSvgX(x) {
+        return pad + ((x - q.minX) / rangeX) * usable;
+      }
+      function toSvgY(y) {
+        return pad + ((q.maxY - y) / rangeY) * usable;
+      }
+
+      let markup = '';
+
+      // Grid lines
+      for (let x = q.minX; x <= q.maxX; x++) {
+        const sx = toSvgX(x);
+        markup += `<line x1="${sx}" y1="${pad}" x2="${sx}" y2="${svgSize - pad}" stroke="#e2e8f0" stroke-width="1"/>`;
+      }
+      for (let y = q.minY; y <= q.maxY; y++) {
+        const sy = toSvgY(y);
+        markup += `<line x1="${pad}" y1="${sy}" x2="${svgSize - pad}" y2="${sy}" stroke="#e2e8f0" stroke-width="1"/>`;
+      }
+
+      // Main Axes
+      const originX = toSvgX(0);
+      const originY = toSvgY(0);
+
+      if (q.minX <= 0 && 0 <= q.maxX) {
+        markup += `<line x1="${originX}" y1="${pad - 4}" x2="${originX}" y2="${svgSize - pad + 4}" stroke="#64748b" stroke-width="1.75"/>`;
+      }
+      if (q.minY <= 0 && 0 <= q.maxY) {
+        markup += `<line x1="${pad - 4}" y1="${originY}" x2="${svgSize - pad + 4}" y2="${originY}" stroke="#64748b" stroke-width="1.75"/>`;
+      }
+
+      // Labels
+      for (let x = q.minX; x <= q.maxX; x++) {
+        if (x === 0 || x % 2 !== 0) continue;
+        markup += `<text x="${toSvgX(x)}" y="${originY + 12}" font-size="9" fill="#94a3b8" text-anchor="middle" font-family="sans-serif">${x}</text>`;
+      }
+      for (let y = q.minY; y <= q.maxY; y++) {
+        if (y === 0 || y % 2 !== 0) continue;
+        markup += `<text x="${originX - 6}" y="${toSvgY(y) + 3}" font-size="9" fill="#94a3b8" text-anchor="end" font-family="sans-serif">${y}</text>`;
+      }
+
+      // Draw Polygon Object A
+      const ptsA = q.obj.map(pt => `${toSvgX(pt[0])},${toSvgY(pt[1])}`).join(' ');
+      markup += `<polygon points="${ptsA}" fill="rgba(37, 99, 235, 0.25)" stroke="#2563eb" stroke-width="2" />`;
+
+      // Centroid label A
+      const cAx = q.obj.reduce((acc, p) => acc + p[0], 0) / q.obj.length;
+      const cAy = q.obj.reduce((acc, p) => acc + p[1], 0) / q.obj.length;
+      markup += `<text x="${toSvgX(cAx)}" y="${toSvgY(cAy) + 4}" font-size="11" font-weight="700" fill="#1d4ed8" text-anchor="middle">A</text>`;
+
+      // Draw Polygon Image B
+      const ptsB = q.img.map(pt => `${toSvgX(pt[0])},${toSvgY(pt[1])}`).join(' ');
+      markup += `<polygon points="${ptsB}" fill="rgba(22, 163, 74, 0.25)" stroke="#16a34a" stroke-width="2" />`;
+
+      // Centroid label B
+      const cBx = q.img.reduce((acc, p) => acc + p[0], 0) / q.img.length;
+      const cBy = q.img.reduce((acc, p) => acc + p[1], 0) / q.img.length;
+      markup += `<text x="${toSvgX(cBx)}" y="${toSvgY(cBy) + 4}" font-size="11" font-weight="700" fill="#15803d" text-anchor="middle">B</text>`;
+
+      gridSvg.innerHTML = markup;
+    }
+
+    function loadQuestion(index) {
+      const q = quizData[index];
+      answered = false;
+
+      qCounter.textContent = `${index + 1} / ${quizData.length}`;
+      progressBar.style.width = `${((index + 1) / quizData.length) * 100}%`;
+
+      tierBadge.textContent = q.tier;
+      tierBadge.className = "tier-badge";
+      if (q.tier === "Easy") tierBadge.classList.add("tier-easy");
+      else if (q.tier === "Medium") tierBadge.classList.add("tier-medium");
+      else tierBadge.classList.add("tier-hard");
+
+      promptText.innerHTML = q.prompt;
+      feedbackMessage.textContent = "";
+      feedbackMessage.className = "feedback-box";
+      nextBtn.style.display = "none";
+
+      renderGrid(q);
+
+      optionsContainer.innerHTML = "";
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "option-btn";
+        btn.innerHTML = opt.text;
+        btn.onclick = () => handleAnswer(opt, btn, q);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(selectedOpt, btnElement, q) {
+      if (answered) return;
+      answered = true;
+
+      const buttons = optionsContainer.querySelectorAll(".option-btn");
+      buttons.forEach(b => b.disabled = true);
+
+      if (selectedOpt.correct) {
+        score++;
+        btnElement.classList.add("correct");
+        feedbackMessage.classList.add("success");
+        feedbackMessage.textContent = "Correct! " + q.explanation;
+      } else {
+        btnElement.classList.add("incorrect");
+        feedbackMessage.classList.add("error");
+        feedbackMessage.textContent = "Incorrect. " + q.explanation;
+
+        // Highlight correct option
+        q.options.forEach((opt, idx) => {
+          if (opt.correct) {
+            buttons[idx].classList.add("correct");
+          }
+        });
+      }
+
+      nextBtn.style.display = "inline-block";
+    }
+
+    function handleNext() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < quizData.length) {
+        loadQuestion(currentQuestionIndex);
+      } else {
+        showSummary();
+      }
+    }
+
+    function showSummary() {
+      quizScreen.style.display = "none";
+      summaryScreen.style.display = "block";
+      progressBar.style.width = "100%";
+      qCounter.textContent = "Complete";
+
+      finalScore.textContent = `${score} / ${quizData.length}`;
+
+      if (score === 10) {
+        summaryComment.textContent = "Exceptional work! You mastered every transformation across all tiers.";
+      } else if (score >= 7) {
+        summaryComment.textContent = "Great job! You have a solid grasp of geometric transformations.";
+      } else if (score >= 4) {
+        summaryComment.textContent = "Good effort! Practice identifying centres of enlargement and rotation lines.";
+      } else {
+        summaryComment.textContent = "Keep revising translation vectors, rotation directions, and mirror lines.";
+      }
+    }
+
+    function restartQuiz() {
+      score = 0;
+      currentQuestionIndex = 0;
+      summaryScreen.style.display = "none";
+      quizScreen.style.display = "block";
+      loadQuestion(0);
+    }
+
+    nextBtn.onclick = handleNext;
+    restartBtn.onclick = restartQuiz;
+
+    loadQuestion(0);
+  </script>
+</body>
+</html>
