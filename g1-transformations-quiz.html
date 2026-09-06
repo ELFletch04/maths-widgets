@@ -24,10 +24,10 @@
 
     .quiz-card {
       width: 100%;
-      max-width: 540px;
+      max-width: 520px;
       background: #ffffff;
       border: 1px solid #e2e8f0;
-      border-radius: 12px;
+      border-radius: 10px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
       padding: 24px;
     }
@@ -42,7 +42,7 @@
 
     .title {
       font-size: 1.15rem;
-      font-weight: 700;
+      font-weight: 600;
       color: #0f172a;
       line-height: 1.3;
     }
@@ -55,7 +55,7 @@
 
     .tier-badge {
       font-size: 0.72rem;
-      font-weight: 700;
+      font-weight: 600;
       padding: 3px 8px;
       border-radius: 999px;
       text-transform: uppercase;
@@ -105,8 +105,14 @@
       transition: width 0.3s ease;
     }
 
+    .instructions {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+
     .question-prompt {
-      font-size: 0.98rem;
+      font-size: 1rem;
       font-weight: 600;
       color: #1e293b;
       margin-bottom: 14px;
@@ -117,8 +123,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
       border-radius: 8px;
       padding: 12px;
       margin-bottom: 16px;
@@ -126,7 +132,7 @@
 
     .grid-svg {
       width: 100%;
-      max-width: 280px;
+      max-width: 290px;
       height: auto;
       display: block;
     }
@@ -137,8 +143,8 @@
       gap: 16px;
       font-size: 0.75rem;
       font-weight: 600;
-      margin-top: 6px;
-      color: #475569;
+      margin-top: 8px;
+      color: #334155;
     }
 
     .legend-item {
@@ -154,13 +160,13 @@
     }
 
     .legend-obj {
-      background: rgba(37, 99, 235, 0.2);
-      border: 1.5px solid #2563eb;
+      background: rgba(37, 99, 235, 0.15);
+      border: 2px solid #2563eb;
     }
 
     .legend-img {
-      background: rgba(22, 163, 74, 0.2);
-      border: 1.5px solid #16a34a;
+      background: rgba(22, 163, 74, 0.15);
+      border: 2px solid #16a34a;
     }
 
     .options-grid {
@@ -174,7 +180,7 @@
       width: 100%;
       background: #ffffff;
       border: 1px solid #cbd5e1;
-      border-radius: 8px;
+      border-radius: 6px;
       padding: 10px 14px;
       text-align: left;
       font-size: 0.9rem;
@@ -217,7 +223,6 @@
       font-size: 0.9rem;
       line-height: 1.1;
       padding: 0 2px;
-      position: relative;
     }
 
     .vector-inner {
@@ -248,7 +253,7 @@
 
     .actions {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       align-items: center;
     }
 
@@ -257,7 +262,7 @@
       color: #ffffff;
       border: none;
       border-radius: 6px;
-      padding: 9px 18px;
+      padding: 8px 16px;
       font-size: 0.875rem;
       font-weight: 600;
       cursor: pointer;
@@ -266,6 +271,23 @@
 
     .btn-primary:hover {
       background: #1e293b;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #cbd5e1;
+      color: #475569;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-secondary:hover {
+      background: #f8fafc;
+      border-color: #94a3b8;
     }
 
     .summary-view {
@@ -310,12 +332,14 @@
     </div>
 
     <div id="quiz-screen">
+      <div class="instructions">Select the single correct description for the transformation shown.</div>
       <div id="prompt-text" class="question-prompt">Question text goes here.</div>
 
       <div class="diagram-container">
         <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
           <svg id="grid-svg" class="grid-svg" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
-            </svg>
+            <!-- Rendered programmatically -->
+          </svg>
           <div class="legend">
             <div class="legend-item"><span class="legend-box legend-obj"></span> Shape A (Object)</div>
             <div class="legend-item"><span class="legend-box legend-img"></span> Shape B (Image)</div>
@@ -324,11 +348,13 @@
       </div>
 
       <div id="options-container" class="options-grid">
-        </div>
+        <!-- Options rendered programmatically -->
+      </div>
 
       <div id="feedback-message" class="feedback-box"></div>
 
       <div class="actions">
+        <button id="reset-btn" class="btn-secondary" type="button">Reset</button>
         <button id="next-btn" class="btn-primary" type="button" style="display: none;">Next Question</button>
       </div>
     </div>
@@ -337,7 +363,7 @@
       <h2 class="summary-title">Quiz Complete!</h2>
       <div id="final-score" class="summary-score">0 / 10</div>
       <p id="summary-comment" class="summary-text">Well done on completing the practice set.</p>
-      <button id="restart-btn" class="btn-primary" type="button">Try Again</button>
+      <button id="restart-btn" class="btn-primary" type="button">Practice Again</button>
     </div>
   </div>
 
@@ -360,7 +386,7 @@
           { text: "Translation by " + renderVectorHTML(-3, -1), correct: false },
           { text: "Reflection in the line x = 3", correct: false }
         ],
-        explanation: "Every vertex moves 3 units right (+3) and 1 unit up (+1)."
+        explanation: "Every vertex shifts 3 units right (+3) and 1 unit up (+1)."
       },
       {
         id: 2,
@@ -373,9 +399,9 @@
           { text: "Reflection in the y-axis (line x = 0)", correct: true },
           { text: "Reflection in the x-axis (line y = 0)", correct: false },
           { text: "Translation by " + renderVectorHTML(-2, 0), correct: false },
-          { text: "Rotation 90° clockwise about (0,0)", correct: false }
+          { text: "Rotation 90° clockwise about (0, 0)", correct: false }
         ],
-        explanation: "The vertices flip horizontally across the vertical axis x = 0 (the y-axis)."
+        explanation: "The vertices reflect horizontally across the vertical axis x = 0 (the y-axis)."
       },
       {
         id: 3,
@@ -385,12 +411,12 @@
         obj: [[1, 1], [3, 1], [1, 3]],
         img: [[-1, 1], [-1, 3], [-3, 1]],
         options: [
-          { text: "Rotation 90° anticlockwise about (0,0)", correct: true },
-          { text: "Rotation 90° clockwise about (0,0)", correct: false },
-          { text: "Rotation 180° about (0,0)", correct: false },
+          { text: "Rotation 90° anticlockwise about (0, 0)", correct: true },
+          { text: "Rotation 90° clockwise about (0, 0)", correct: false },
+          { text: "Rotation 180° about (0, 0)", correct: false },
           { text: "Reflection in the line y = -x", correct: false }
         ],
-        explanation: "(x, y) becomes (-y, x), representing a 90° anticlockwise rotation about the origin (0,0)."
+        explanation: "Each vertex (x, y) turns 90° anticlockwise about the origin to (-y, x)."
       },
       {
         id: 4,
@@ -405,7 +431,7 @@
           { text: "Enlargement by scale factor 1/2, centre (1, 1)", correct: false },
           { text: "Translation by " + renderVectorHTML(0, 2), correct: false }
         ],
-        explanation: "Side lengths double (base is 2 instead of 1), and vertex (1,1) is invariant, making it the centre of enlargement."
+        explanation: "Side lengths double, and the vertex at (1, 1) remains fixed (invariant), meaning it is the centre."
       },
       {
         id: 5,
@@ -420,7 +446,7 @@
           { text: "Reflection in the line x = 2.5", correct: false },
           { text: "Translation by " + renderVectorHTML(4, 0), correct: false }
         ],
-        explanation: "The mirror line is the vertical line halfway between x = 1 and x = 5, which is x = 3."
+        explanation: "The mirror line is the vertical line halfway between corresponding points, which is x = 3."
       },
       {
         id: 6,
@@ -435,7 +461,7 @@
           { text: "Rotation 90° clockwise about (0, 0)", correct: false },
           { text: "Reflection in the line y = x", correct: false }
         ],
-        explanation: "Tracing rays from (2, 2) shows perpendicular clockwise turning by 90°."
+        explanation: "Vertex distances and right-angle rays verify a 90° clockwise rotation about the point (2, 2)."
       },
       {
         id: 7,
@@ -447,10 +473,10 @@
         options: [
           { text: "Reflection in the line y = x", correct: true },
           { text: "Reflection in the line y = -x", correct: false },
-          { text: "Rotation 90° clockwise about (0,0)", correct: false },
-          { text: "Enlargement by scale factor 1, centre (0,0)", correct: false }
+          { text: "Rotation 90° clockwise about (0, 0)", correct: false },
+          { text: "Enlargement by scale factor 1, centre (0, 0)", correct: false }
         ],
-        explanation: "Coordinates swap: (1, 2) -> (2, 1) and (1, 4) -> (4, 1), characteristic of reflection in y = x."
+        explanation: "The coordinates interchange: (1, 2) becomes (2, 1) and (1, 4) becomes (4, 1), characteristic of reflection across y = x."
       },
       {
         id: 8,
@@ -465,7 +491,7 @@
           { text: "Enlargement by scale factor 1/2, centre (2, 2)", correct: false },
           { text: "Translation by " + renderVectorHTML(-1, -1), correct: false }
         ],
-        explanation: "Side lengths halve from 4 to 2, and lines connecting corresponding vertices intersect at (0, 0)."
+        explanation: "The dimensions halve (scale factor 1/2), and lines through corresponding vertices intersect at (0, 0)."
       },
       {
         id: 9,
@@ -477,15 +503,15 @@
         options: [
           { text: "Enlargement by scale factor -2, centre (0, 0)", correct: true },
           { text: "Enlargement by scale factor 2, centre (0, 0)", correct: false },
-          { text: "Rotation 180° about (0,0)", correct: false },
+          { text: "Rotation 180° about (0, 0)", correct: false },
           { text: "Enlargement by scale factor -1/2, centre (0, 0)", correct: false }
         ],
-        explanation: "The shape doubles in dimensions and is inverted through the origin: (x, y) -> (-2x, -2y)."
+        explanation: "Lengths double and coordinates invert through the origin: (x, y) mapped to (-2x, -2y), meaning scale factor -2, centre (0, 0)."
       },
       {
         id: 10,
         tier: "Hard",
-        prompt: "Shape A is reflected in the x-axis, then translated by " + renderVectorHTML(0, 2) + ". What is the resulting single transformation to map Shape A directly onto final Shape B?",
+        prompt: "Shape A is reflected in the x-axis, then translated by " + renderVectorHTML(0, 2) + ". What single transformation maps Shape A directly to final Shape B?",
         minX: -4, maxX: 4, minY: -4, maxY: 4,
         obj: [[1, 1], [3, 1], [1, 3]],
         img: [[1, 1], [3, 1], [1, -1]],
@@ -495,7 +521,7 @@
           { text: "Rotation 180° about (2, 1)", correct: false },
           { text: "Translation by " + renderVectorHTML(0, -2), correct: false }
         ],
-        explanation: "Reflecting in y = 0 sends y to -y. Shifting up by 2 sends y to -y + 2. This is equivalent to reflection in y = 1."
+        explanation: "Reflecting in y = 0 maps y to -y. Translating by +2 in y gives y' = -y + 2. This is identical to reflection across y = 1."
       }
     ];
 
@@ -511,6 +537,7 @@
     const optionsContainer = document.getElementById("options-container");
     const feedbackMessage = document.getElementById("feedback-message");
     const nextBtn = document.getElementById("next-btn");
+    const resetBtn = document.getElementById("reset-btn");
     const quizScreen = document.getElementById("quiz-screen");
     const summaryScreen = document.getElementById("summary-screen");
     const finalScore = document.getElementById("final-score");
@@ -533,49 +560,49 @@
 
       let markup = '';
 
-      // Grid lines
+      // Darker, clearer graph paper grid lines (#94a3b8)
       for (let x = q.minX; x <= q.maxX; x++) {
         const sx = toSvgX(x);
-        markup += `<line x1="${sx}" y1="${pad}" x2="${sx}" y2="${svgSize - pad}" stroke="#e2e8f0" stroke-width="1"/>`;
+        markup += `<line x1="${sx}" y1="${pad}" x2="${sx}" y2="${svgSize - pad}" stroke="#94a3b8" stroke-width="1"/>`;
       }
       for (let y = q.minY; y <= q.maxY; y++) {
         const sy = toSvgY(y);
-        markup += `<line x1="${pad}" y1="${sy}" x2="${svgSize - pad}" y2="${sy}" stroke="#e2e8f0" stroke-width="1"/>`;
+        markup += `<line x1="${pad}" y1="${sy}" x2="${svgSize - pad}" y2="${sy}" stroke="#94a3b8" stroke-width="1"/>`;
       }
 
-      // Main Axes
+      // Main Axes (#334155, 2px stroke)
       const originX = toSvgX(0);
       const originY = toSvgY(0);
 
       if (q.minX <= 0 && 0 <= q.maxX) {
-        markup += `<line x1="${originX}" y1="${pad - 4}" x2="${originX}" y2="${svgSize - pad + 4}" stroke="#64748b" stroke-width="1.75"/>`;
+        markup += `<line x1="${originX}" y1="${pad - 4}" x2="${originX}" y2="${svgSize - pad + 4}" stroke="#334155" stroke-width="2"/>`;
       }
       if (q.minY <= 0 && 0 <= q.maxY) {
-        markup += `<line x1="${pad - 4}" y1="${originY}" x2="${svgSize - pad + 4}" y2="${originY}" stroke="#64748b" stroke-width="1.75"/>`;
+        markup += `<line x1="${pad - 4}" y1="${originY}" x2="${svgSize - pad + 4}" y2="${originY}" stroke="#334155" stroke-width="2"/>`;
       }
 
-      // Labels
+      // Crisp Axis Tick Values (#334155)
       for (let x = q.minX; x <= q.maxX; x++) {
         if (x === 0 || x % 2 !== 0) continue;
-        markup += `<text x="${toSvgX(x)}" y="${originY + 12}" font-size="9" fill="#94a3b8" text-anchor="middle" font-family="sans-serif">${x}</text>`;
+        markup += `<text x="${toSvgX(x)}" y="${originY + 12}" font-size="10" font-weight="600" fill="#334155" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif">${x}</text>`;
       }
       for (let y = q.minY; y <= q.maxY; y++) {
         if (y === 0 || y % 2 !== 0) continue;
-        markup += `<text x="${originX - 6}" y="${toSvgY(y) + 3}" font-size="9" fill="#94a3b8" text-anchor="end" font-family="sans-serif">${y}</text>`;
+        markup += `<text x="${originX - 6}" y="${toSvgY(y) + 3}" font-size="10" font-weight="600" fill="#334155" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif">${y}</text>`;
       }
 
-      // Draw Polygon Object A
+      // Draw Polygon Object A (2px stroke)
       const ptsA = q.obj.map(pt => `${toSvgX(pt[0])},${toSvgY(pt[1])}`).join(' ');
-      markup += `<polygon points="${ptsA}" fill="rgba(37, 99, 235, 0.25)" stroke="#2563eb" stroke-width="2" />`;
+      markup += `<polygon points="${ptsA}" fill="rgba(37, 99, 235, 0.2)" stroke="#2563eb" stroke-width="2" />`;
 
       // Centroid label A
       const cAx = q.obj.reduce((acc, p) => acc + p[0], 0) / q.obj.length;
       const cAy = q.obj.reduce((acc, p) => acc + p[1], 0) / q.obj.length;
       markup += `<text x="${toSvgX(cAx)}" y="${toSvgY(cAy) + 4}" font-size="11" font-weight="700" fill="#1d4ed8" text-anchor="middle">A</text>`;
 
-      // Draw Polygon Image B
+      // Draw Polygon Image B (2px stroke)
       const ptsB = q.img.map(pt => `${toSvgX(pt[0])},${toSvgY(pt[1])}`).join(' ');
-      markup += `<polygon points="${ptsB}" fill="rgba(22, 163, 74, 0.25)" stroke="#16a34a" stroke-width="2" />`;
+      markup += `<polygon points="${ptsB}" fill="rgba(22, 163, 74, 0.2)" stroke="#16a34a" stroke-width="2" />`;
 
       // Centroid label B
       const cBx = q.img.reduce((acc, p) => acc + p[0], 0) / q.img.length;
@@ -583,6 +610,15 @@
       markup += `<text x="${toSvgX(cBx)}" y="${toSvgY(cBy) + 4}" font-size="11" font-weight="700" fill="#15803d" text-anchor="middle">B</text>`;
 
       gridSvg.innerHTML = markup;
+    }
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
     }
 
     function loadQuestion(index) {
@@ -605,8 +641,10 @@
 
       renderGrid(q);
 
+      const shuffledOptions = shuffleArray(q.options);
+
       optionsContainer.innerHTML = "";
-      q.options.forEach((opt, idx) => {
+      shuffledOptions.forEach((opt) => {
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "option-btn";
@@ -633,15 +671,18 @@
         feedbackMessage.classList.add("error");
         feedbackMessage.textContent = "Incorrect. " + q.explanation;
 
-        // Highlight correct option
-        q.options.forEach((opt, idx) => {
-          if (opt.correct) {
-            buttons[idx].classList.add("correct");
+        buttons.forEach((btn, idx) => {
+          if (btn.innerHTML === q.options.find(o => o.correct).text) {
+            btn.classList.add("correct");
           }
         });
       }
 
       nextBtn.style.display = "inline-block";
+    }
+
+    function handleReset() {
+      loadQuestion(currentQuestionIndex);
     }
 
     function handleNext() {
@@ -662,13 +703,13 @@
       finalScore.textContent = `${score} / ${quizData.length}`;
 
       if (score === 10) {
-        summaryComment.textContent = "Exceptional work! You mastered every transformation across all tiers.";
+        summaryComment.textContent = "Outstanding! Full marks across all transformations and difficulty tiers.";
       } else if (score >= 7) {
         summaryComment.textContent = "Great job! You have a solid grasp of geometric transformations.";
       } else if (score >= 4) {
-        summaryComment.textContent = "Good effort! Practice identifying centres of enlargement and rotation lines.";
+        summaryComment.textContent = "Good effort! Revise finding centres of enlargement and rotation lines.";
       } else {
-        summaryComment.textContent = "Keep revising translation vectors, rotation directions, and mirror lines.";
+        summaryComment.textContent = "Keep practicing! Review column vectors, rotation conventions, and mirror line equations.";
       }
     }
 
@@ -681,6 +722,7 @@
     }
 
     nextBtn.onclick = handleNext;
+    resetBtn.onclick = handleReset;
     restartBtn.onclick = restartQuiz;
 
     loadQuestion(0);
