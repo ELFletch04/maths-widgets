@@ -482,4 +482,131 @@
     // Numbering (every 2 units, matching textbook diagrams)
     for (let x = b.xMin; x <= b.xMax; x += b.step) {
       if (x % 2 === 0 && x !== 0) {
-        let sy = (b.yMin <= 0 && b.yMax >=
+        let sy = (b.yMin <= 0 && b.yMax >= 0) ? toSvgY(0) + 16 : toSvgY(b.yMin) + 14;
+        out += `<text x="${toSvgX(x)}" y="${sy}" font-size="11" font-weight="600" fill="#334155" text-anchor="middle">${x}</text>`;
+      }
+    }
+    for (let y = b.yMin; y <= b.yMax; y += b.step) {
+      if (y % 2 === 0 && y !== 0) {
+        let sx = (b.xMin <= 0 && b.xMax >= 0) ? toSvgX(0) - 8 : toSvgX(b.xMin) - 6;
+        out += `<text x="${sx}" y="${toSvgY(y) + 4}" font-size="11" font-weight="600" fill="#334155" text-anchor="end">${y}</text>`;
+      }
+    }
+
+    // Mirror Line
+    if (data.mirrorLine) {
+      const ml = data.mirrorLine;
+      if (ml.type === "vertical") {
+        const sx = toSvgX(ml.val);
+        out += `<line x1="${sx}" y1="${toSvgY(b.yMax)}" x2="${sx}" y2="${toSvgY(b.yMin)}" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,4" />`;
+      } else if (ml.type === "horizontal") {
+        const sy = toSvgY(ml.val);
+        out += `<line x1="${toSvgX(b.xMin)}" y1="${sy}" x2="${toSvgX(b.xMax)}" y2="${sy}" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,4" />`;
+      } else if (ml.type === "diag") {
+        out += `<line x1="${toSvgX(b.xMin)}" y1="${toSvgY(b.xMin * ml.m + ml.c)}" x2="${toSvgX(b.xMax)}" y2="${toSvgY(b.xMax * ml.m + ml.c)}" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,4" />`;
+      }
+    }
+
+    // Render Polygons (Shape A = Blue, Shape B = Green)
+    data.shapes.forEach(shape => {
+      let ptsStr = shape.pts.map(p => `${toSvgX(p[0])},${toSvgY(p[1])}`).join(" ");
+      out += `<polygon points="${ptsStr}" fill="${shape.fill}" stroke="${shape.stroke}" stroke-width="2.5" stroke-linejoin="round" />`;
+      if (shape.label) {
+        out += `<text x="${toSvgX(shape.lx)}" y="${toSvgY(shape.ly)}" font-size="14" font-weight="bold" fill="${shape.stroke}" text-anchor="middle" dominant-baseline="middle">${shape.label}</text>`;
+      }
+    });
+
+    svg.innerHTML = out;
+  }
+
+  function loadQuestion() {
+    answered = false;
+    nextBtn.style.display = "none";
+    feedWrap.className = "feedback-box";
+    feedWrap.style.display = "none";
+    feedWrap.textContent = "";
+
+    const item = questions[currQ];
+    qCount.textContent = `Question ${currQ + 1} of ${questions.length}`;
+    qText.textContent = item.q;
+
+    badge.className = `badge badge-${item.diff}`;
+    badge.textContent = item.diff;
+    progBar.style.width = `${((currQ) / questions.length) * 100}%`;
+
+    renderGrid(item.grid, item.bounds);
+
+    optWrap.innerHTML = "";
+    item.options.forEach((opt, idx) => {
+      const btn = document.createElement("button");
+      btn.className = "option-btn";
+      btn.textContent = opt;
+      btn.addEventListener("click", () => handleSelect(idx));
+      optWrap.appendChild(btn);
+    });
+  }
+
+  function handleSelect(selectedIdx) {
+    if (answered) return;
+    answered = true;
+
+    const item = questions[currQ];
+    const buttons = optWrap.querySelectorAll(".option-btn");
+    buttons.forEach(b => b.disabled = true);
+
+    if (selectedIdx === item.ans) {
+      score++;
+      buttons[selectedIdx].classList.add("correct");
+      feedWrap.textContent = "Correct! " + item.expl;
+      feedWrap.className = "feedback-box correct";
+    } else {
+      buttons[selectedIdx].classList.add("incorrect");
+      buttons[item.ans].classList.add("correct");
+      feedWrap.textContent = "Incorrect. " + item.expl;
+      feedWrap.className = "feedback-box incorrect";
+    }
+
+    nextBtn.style.display = "inline-block";
+    if (currQ === questions.length - 1) {
+      nextBtn.textContent = "Show Final Score";
+    } else {
+      nextBtn.textContent = "Next Question";
+    }
+  }
+
+  function handleNext() {
+    if (currQ < questions.length - 1) {
+      currQ++;
+      loadQuestion();
+    } else {
+      progBar.style.width = "100%";
+      quizView.style.display = "none";
+      scoreView.style.display = "flex";
+      scoreVal.textContent = `You scored ${score} / ${questions.length}`;
+      let pct = Math.round((score / questions.length) * 100);
+      if (pct >= 80) {
+        scoreSummary.textContent = "Excellent work! You have mastered GCSE geometric transformations.";
+      } else if (pct >= 50) {
+        scoreSummary.textContent = "Good effort! Revise fractional/negative enlargements and vector signs for top marks.";
+      } else {
+        scoreSummary.textContent = "Keep practicing! Review reflection lines, coordinates, and rotation centers.";
+      }
+    }
+  }
+
+  function handleReset() {
+    score = 0;
+    currQ = 0;
+    scoreView.style.display = "none";
+    quizView.style.display = "flex";
+    loadQuestion();
+  }
+
+  nextBtn.addEventListener("click", handleNext);
+  retryBtn.addEventListener("click", handleReset);
+
+  loadQuestion();
+})();
+</script>
+</body>
+</html>
