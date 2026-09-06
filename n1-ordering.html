@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 12px;
+      background: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #f8fafc;
+      display: flex;
+      justify-content: center;
+    }
+    #quiz-container {
+      background: #0f172a;
+      padding: 24px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+    .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+    .slot-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: space-between;
+    }
+    .target-slot {
+      flex: 1;
+      height: 56px;
+      border: 2px dashed #475569;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    #number-bank {
+      display: flex;
+      gap: 10px;
+      min-height: 56px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed #334155;
+      border-radius: 8px;
+      padding: 8px;
+      margin-bottom: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+    .tile {
+      min-width: 72px;
+      height: 42px;
+      padding: 0 12px;
+      background: #1e293b;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+    }
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    #check-btn {
+      padding: 9px 18px;
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #reset-btn {
+      padding: 9px 14px;
+      background: transparent;
+      color: #94a3b8;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    #quiz-feedback {
+      margin: 0;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+<div id="quiz-container">
+  <h3 style="margin: 0 0 6px 0; font-size: 1.15rem; font-weight: 600;">Practice: Order the Decimals</h3>
+  <p style="margin: 0 0 16px 0; color: #94a3b8; font-size: 0.88rem;">Click or tap numbers to place them from smallest to largest.</p>
+
+  <div class="label">Available Numbers</div>
+  <div id="number-bank"></div>
+
+  <div class="label">Your Order (Smallest &rarr; Largest)</div>
+  <div class="slot-row">
+    <div class="target-slot" data-slot="0"></div>
+    <div class="target-slot" data-slot="1"></div>
+    <div class="target-slot" data-slot="2"></div>
+  </div>
+
+  <div class="btn-row">
+    <button id="check-btn" type="button">Check Order</button>
+    <button id="reset-btn" type="button">Reset / New</button>
+    <p id="quiz-feedback"></p>
+  </div>
+</div>
+
+<script>
+(function() {
+  var currentSlots = [null, null, null];
+  var targetOrder = [];
+
+  function tileClick(tile) {
+    var parent = tile.parentElement;
+    var bank = document.getElementById('number-bank');
+    var targetSlots = document.querySelectorAll('.target-slot');
+    var val = tile.getAttribute('data-val');
+
+    if (parent.id === 'number-bank') {
+      var firstEmpty = currentSlots.indexOf(null);
+      if (firstEmpty !== -1) {
+        targetSlots[firstEmpty].appendChild(tile);
+        currentSlots[firstEmpty] = val;
+      }
+    } else {
+      var slotIdx = parseInt(parent.getAttribute('data-slot'), 10);
+      currentSlots[slotIdx] = null;
+      bank.appendChild(tile);
+    }
+  }
+
+  function generateQuiz() {
+    var bank = document.getElementById('number-bank');
+    var targetSlots = document.querySelectorAll('.target-slot');
+    var fb = document.getElementById('quiz-feedback');
+    if (!bank) return;
+
+    currentSlots = [null, null, null];
+    bank.innerHTML = '';
+    targetSlots.forEach(function(s) { s.innerHTML = ''; });
+    if (fb) fb.innerText = '';
+
+    var numbers = [];
+    while (numbers.length < 3) {
+      var num = (Math.random() * 4 + 0.1).toFixed(2);
+      if (numbers.indexOf(num) === -1) {
+        numbers.push(num);
+      }
+    }
+
+    targetOrder = numbers.slice().sort(function(a, b) {
+      return parseFloat(a) - parseFloat(b);
+    });
+
+    var shuffled = numbers.slice().sort(function() {
+      return Math.random() - 0.5;
+    });
+
+    shuffled.forEach(function(n, i) {
+      var tile = document.createElement('div');
+      tile.className = 'tile';
+      tile.id = 'tile-' + i;
+      tile.innerText = n;
+      tile.setAttribute('data-val', n);
+      tile.onclick = function() { tileClick(this); };
+      bank.appendChild(tile);
+    });
+  }
+
+  function checkAnswer() {
+    var fb = document.getElementById('quiz-feedback');
+    if (!fb) return;
+
+    if (currentSlots.indexOf(null) !== -1) {
+      fb.style.color = '#f59e0b';
+      fb.innerText = 'Fill all 3 slots first!';
+      return;
+    }
+
+    var isCorrect = currentSlots.every(function(val, idx) {
+      return parseFloat(val) === parseFloat(targetOrder[idx]);
+    });
+
+    if (isCorrect) {
+      fb.style.color = '#4ade80';
+      fb.innerText = '✓ Correct!';
+    } else {
+      fb.style.color = '#f87171';
+      fb.innerText = '✗ Incorrect. Try again!';
+    }
+  }
+
+  document.getElementById('check-btn').onclick = checkAnswer;
+  document.getElementById('reset-btn').onclick = generateQuiz;
+
+  generateQuiz();
+})();
+</script>
+
+</body>
+</html>
