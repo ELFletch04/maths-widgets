@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ordering Numbers & Decimals Quiz</title>
+  <title>Ordering Decimals & Numbers Quiz</title>
   <style>
     * {
       box-sizing: border-box;
@@ -61,96 +61,222 @@
     .instructions {
       font-size: 0.875rem;
       color: #64748b;
+      line-height: 1.4;
     }
 
-    .question-box {
-      background-color: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 16px;
-      text-align: center;
-    }
-
-    .question-text {
+    .question-prompt {
       font-size: 1rem;
       font-weight: 600;
       color: #1e293b;
       line-height: 1.5;
     }
 
-    .options-grid {
+    /* Inequality Comparison Container */
+    .inequality-container {
       display: flex;
-      flex-direction: column;
-      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 20px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #0f172a;
     }
 
-    .option-card {
-      background-color: #ffffff;
+    .symbol-target-box {
+      width: 48px;
+      height: 48px;
+      border: 2px dashed #94a3b8;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      color: #2563eb;
+      font-size: 1.5rem;
+      font-weight: 700;
+      transition: all 0.15s ease;
+    }
+
+    .symbol-target-box.filled {
+      border-style: solid;
+      border-color: #cbd5e1;
+      color: #0f172a;
+    }
+
+    .symbol-target-box.correct {
+      border-color: #16a34a;
+      background: #f0fdf4;
+      color: #16a34a;
+    }
+
+    .symbol-target-box.incorrect {
+      border-color: #dc2626;
+      background: #fef2f2;
+      color: #dc2626;
+    }
+
+    /* Inequality Multiple Choice Grid */
+    .symbol-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .symbol-btn {
+      background: #ffffff;
       border: 1px solid #cbd5e1;
       border-radius: 6px;
       padding: 12px 14px;
-      font-size: 0.95rem;
+      font-size: 1.25rem;
+      font-weight: 600;
       color: #1e293b;
       cursor: pointer;
-      text-align: left;
-      transition: background-color 0.15s ease, border-color 0.15s ease;
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
       user-select: none;
     }
 
-    .option-card:hover:not(.disabled) {
+    .symbol-btn:hover:not(.disabled) {
       background-color: #f8fafc;
       border-color: #94a3b8;
     }
 
-    .option-indicator {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 24px;
-      height: 24px;
-      border-radius: 4px;
-      border: 1px solid #cbd5e1;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #64748b;
-      flex-shrink: 0;
-    }
-
-    .option-card.correct {
+    .symbol-btn.correct {
       border-color: #16a34a;
       background-color: #f0fdf4;
       color: #15803d;
-      font-weight: 600;
     }
 
-    .option-card.correct .option-indicator {
-      border-color: #16a34a;
-      background-color: #16a34a;
-      color: #ffffff;
-    }
-
-    .option-card.incorrect {
+    .symbol-btn.incorrect {
       border-color: #dc2626;
       background-color: #fef2f2;
       color: #b91c1c;
     }
 
-    .option-card.incorrect .option-indicator {
-      border-color: #dc2626;
-      background-color: #dc2626;
-      color: #ffffff;
-    }
-
-    .option-card.disabled {
+    .symbol-btn.disabled {
       cursor: default;
     }
 
+    /* Ordering Interactive Slots */
+    .ordering-area {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .slots-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+    }
+
+    .slots-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      min-height: 52px;
+      padding: 10px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      align-items: center;
+    }
+
+    .number-slot {
+      flex: 1 1 calc(20% - 8px);
+      min-width: 60px;
+      height: 44px;
+      border: 1.5px dashed #cbd5e1;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #64748b;
+      background: #ffffff;
+      user-select: none;
+      transition: all 0.15s ease;
+    }
+
+    .number-slot.filled {
+      border-style: solid;
+      border-color: #94a3b8;
+      color: #0f172a;
+      cursor: pointer;
+    }
+
+    .number-slot.filled:hover:not(.checked) {
+      border-color: #dc2626;
+      background: #fff5f5;
+    }
+
+    .number-slot.correct {
+      border-color: #16a34a;
+      background-color: #f0fdf4;
+      color: #15803d;
+    }
+
+    .number-slot.incorrect {
+      border-color: #dc2626;
+      background-color: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .pool-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .chip-item {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #1e293b;
+      cursor: pointer;
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .chip-item:hover {
+      background-color: #f8fafc;
+      border-color: #94a3b8;
+    }
+
+    .chip-item.used {
+      opacity: 0.25;
+      pointer-events: none;
+      border-style: dashed;
+    }
+
+    .ordering-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    /* Feedback & Global Controls */
     .feedback-banner {
       font-size: 0.875rem;
-      line-height: 1.4;
+      line-height: 1.45;
       padding: 12px;
       border-radius: 6px;
       display: none;
@@ -182,7 +308,7 @@
       color: #ffffff;
       border: none;
       border-radius: 6px;
-      padding: 8px 18px;
+      padding: 8px 16px;
       font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
@@ -235,9 +361,9 @@
       flex-direction: column;
       vertical-align: middle;
       text-align: center;
-      padding: 0 2px;
-      font-size: 0.9em;
       line-height: 1;
+      font-size: 0.85em;
+      padding: 0 1px;
     }
 
     .fraction-top {
@@ -254,151 +380,192 @@
 
 <div class="widget-card">
   <div class="header">
-    <div class="title">Ordering Decimals & Numbers</div>
+    <div class="title">Ordering Numbers & Decimals</div>
     <div class="progress-tag" id="progress-tag">Question 1 of 10</div>
   </div>
 
   <div id="quiz-screen">
-    <div class="instructions" id="instruction-text">Choose the correct ascending sequence:</div>
-    <div class="question-box" style="margin-top: 10px;">
-      <div class="question-text" id="question-text">Loading...</div>
+    <div class="instructions" id="instruction-text">Loading instructions...</div>
+    <div class="question-prompt" id="question-prompt" style="margin-top: 10px;"></div>
+
+    <!-- Container for Inequality Questions -->
+    <div id="inequality-view" style="display: none; margin-top: 14px;">
+      <div class="inequality-container">
+        <span id="ineq-left"></span>
+        <div class="symbol-target-box" id="symbol-target">?</div>
+        <span id="ineq-right"></span>
+      </div>
+      <div class="symbol-grid" id="symbol-grid">
+        <button type="button" class="symbol-btn" data-sym="<">&lt;</button>
+        <button type="button" class="symbol-btn" data-sym=">">&gt;</button>
+        <button type="button" class="symbol-btn" data-sym="=">=</button>
+      </div>
     </div>
 
-    <div class="options-grid" id="options-grid" style="margin-top: 14px;"></div>
+    <!-- Container for Interactive Ordering Questions -->
+    <div id="ordering-view" style="display: none; margin-top: 14px;" class="ordering-area">
+      <div class="slots-label">Your Order (Smallest to Largest):</div>
+      <div class="slots-container" id="slots-container"></div>
 
-    <div class="feedback-banner" id="feedback-banner" style="margin-top: 12px;"></div>
+      <div class="slots-label" style="margin-top: 4px;">Available Numbers (Click to place):</div>
+      <div class="pool-container" id="pool-container"></div>
 
-    <div class="footer" style="margin-top: 12px;">
-      <button class="btn-primary" id="next-btn">Next Question →</button>
+      <div class="ordering-actions">
+        <button type="button" class="btn-secondary" id="reset-order-btn">Reset</button>
+        <button type="button" class="btn-primary" id="check-order-btn" style="display: inline-block;">Check Answer</button>
+      </div>
+    </div>
+
+    <div class="feedback-banner" id="feedback-banner" style="margin-top: 14px;"></div>
+
+    <div class="footer">
+      <button type="button" class="btn-primary" id="next-btn">Next Question →</button>
     </div>
   </div>
 
+  <!-- Final Score View -->
   <div class="score-view" id="score-view">
     <div class="score-heading">Quiz Completed!</div>
     <div class="score-display" id="final-score">0 / 10</div>
     <div class="instructions" id="score-summary"></div>
-    <button class="btn-secondary" id="restart-btn" style="margin-top: 8px;">Try Again</button>
+    <button type="button" class="btn-secondary" id="restart-btn" style="margin-top: 8px;">Try Again</button>
   </div>
 </div>
 
 <script>
 (function() {
+  const frac = function(num, den) {
+    return '<span class="fraction"><span class="fraction-top">' + num + '</span><span class="fraction-bottom">' + den + '</span></span>';
+  };
+
   const questions = [
+    // 1. Ordering Decimals - Easy
     {
-      category: "Ordering Decimals",
-      prompt: "Put the following in ascending order (smallest to largest):<br><strong>0.12, 0.03, 0.05, 0.2, 0.14</strong>",
-      options: [
-        "0.03, 0.05, 0.12, 0.14, 0.2",
-        "0.03, 0.05, 0.2, 0.12, 0.14",
-        "0.2, 0.03, 0.05, 0.12, 0.14",
-        "0.03, 0.05, 0.12, 0.2, 0.14"
+      type: "ordering",
+      prompt: "Put the following in ascending order (smallest to largest):",
+      items: [
+        { id: 1, label: "0.12", val: 0.12 },
+        { id: 2, label: "0.03", val: 0.03 },
+        { id: 3, label: "0.05", val: 0.05 },
+        { id: 4, label: "0.2", val: 0.20 },
+        { id: 5, label: "0.14", val: 0.14 }
       ],
-      correctIndex: 0,
-      explanation: "Writing all with two decimal places: 0.03, 0.05, 0.12, 0.14, 0.20. Hence, 0.03, 0.05, 0.12, 0.14, 0.2."
+      explanation: "Writing all numbers with two decimal places: 0.03, 0.05, 0.12, 0.14, 0.20. Ascending order: 0.03, 0.05, 0.12, 0.14, 0.2."
     },
+    // 2. Ordering Decimals - Medium
     {
-      category: "Ordering Decimals",
-      prompt: "Put the following in ascending order:<br><strong>0.14, 0.014, 0.1401, 0.44, 0.41</strong>",
-      options: [
-        "0.014, 0.14, 0.44, 0.41, 0.1401",
-        "0.014, 0.14, 0.1401, 0.41, 0.44",
-        "0.14, 0.014, 0.1401, 0.41, 0.44",
-        "0.014, 0.1401, 0.14, 0.41, 0.44"
+      type: "ordering",
+      prompt: "Put the following in ascending order (smallest to largest):",
+      items: [
+        { id: 1, label: "0.14", val: 0.1400 },
+        { id: 2, label: "0.014", val: 0.0140 },
+        { id: 3, label: "0.1401", val: 0.1401 },
+        { id: 4, label: "0.44", val: 0.4400 },
+        { id: 5, label: "0.41", val: 0.4100 }
       ],
-      correctIndex: 1,
-      explanation: "Comparing digit by digit: 0.014 (thousandths), then 0.1400, then 0.1401, then 0.4100, then 0.4400."
+      explanation: "Comparing place values: 0.014 has 0 tenths; 0.1400 and 0.1401 have 1 tenth; 0.41 and 0.44 have 4 tenths. Ascending order: 0.014, 0.14, 0.1401, 0.41, 0.44."
     },
+    // 3. Ordering Decimals - Hard
     {
-      category: "Ordering Decimals",
-      prompt: "Put the following in ascending order:<br><strong>0.05, -0.50, 0.15, -0.51, 0.51</strong>",
-      options: [
-        "-0.50, -0.51, 0.05, 0.15, 0.51",
-        "-0.51, -0.50, 0.15, 0.05, 0.51",
-        "-0.51, -0.50, 0.05, 0.15, 0.51",
-        "0.05, 0.15, 0.51, -0.50, -0.51"
+      type: "ordering",
+      prompt: "Put the following in ascending order (smallest to largest):",
+      items: [
+        { id: 1, label: "0.05", val: 0.05 },
+        { id: 2, label: "-0.50", val: -0.50 },
+        { id: 3, label: "0.15", val: 0.15 },
+        { id: 4, label: "-0.51", val: -0.51 },
+        { id: 5, label: "0.51", val: 0.51 }
       ],
-      correctIndex: 2,
-      explanation: "For negative numbers, -0.51 is smaller than -0.50. The positives are 0.05 < 0.15 < 0.51. Thus: -0.51, -0.50, 0.05, 0.15, 0.51."
+      explanation: "Comparing negative numbers first: -0.51 is further left than -0.50. The positives are 0.05 < 0.15 < 0.51. Ascending order: -0.51, -0.50, 0.05, 0.15, 0.51."
     },
+    // 4. Inequality - Easy
     {
-      category: "Inequality Symbols",
-      prompt: "Fill in the missing symbol: <strong>12 ____ 9</strong>",
-      options: ["<", ">", "="],
-      correctIndex: 1,
+      type: "inequality",
+      prompt: "Fill in the missing symbol using &lt;, &gt;, or = :",
+      leftHTML: "12",
+      rightHTML: "9",
+      correctSymbol: ">",
       explanation: "12 is greater than 9, so 12 > 9."
     },
+    // 5. Inequality - Medium
     {
-      category: "Inequality Symbols",
-      prompt: "Fill in the missing symbol: <strong>-2 ____ -1.7</strong>",
-      options: ["<", ">", "="],
-      correctIndex: 0,
+      type: "inequality",
+      prompt: "Fill in the missing symbol using &lt;, &gt;, or = :",
+      leftHTML: "-2",
+      rightHTML: "-1.7",
+      correctSymbol: "<",
       explanation: "On a number line, -2 is further to the left than -1.7, so -2 < -1.7."
     },
+    // 6. Inequality - Hard
     {
-      category: "Inequality Symbols",
-      prompt: "Fill in the missing symbol: <strong>0.25 ____ <sup>1</sup>&frasl;<sub>4</sub></strong>",
-      options: ["<", ">", "="],
-      correctIndex: 2,
-      explanation: "1 ÷ 4 = 0.25. Since both represent the same value, 0.25 = 1/4."
+      type: "inequality",
+      prompt: "Fill in the missing symbol using &lt;, &gt;, or = :",
+      leftHTML: "0.25",
+      rightHTML: frac(1, 4),
+      correctSymbol: "=",
+      explanation: "1 ÷ 4 = 0.25. Since both values are equal, 0.25 = " + frac(1, 4) + "."
     },
+    // 7. Ordering Mixed Formats - Easy
     {
-      category: "Ordering Mixed Formats",
-      prompt: "Put the following in ascending order:<br><strong><sup>3</sup>&frasl;<sub>5</sub>, 0.65, <sup>1</sup>&frasl;<sub>2</sub>, 0.58, <sup>7</sup>&frasl;<sub>10</sub></strong>",
-      options: [
-        "<sup>1</sup>&frasl;<sub>2</sub>, 0.58, <sup>3</sup>&frasl;<sub>5</sub>, 0.65, <sup>7</sup>&frasl;<sub>10</sub>",
-        "0.58, <sup>1</sup>&frasl;<sub>2</sub>, <sup>3</sup>&frasl;<sub>5</sub>, 0.65, <sup>7</sup>&frasl;<sub>10</sub>",
-        "<sup>1</sup>&frasl;<sub>2</sub>, <sup>3</sup>&frasl;<sub>5</sub>, 0.58, 0.65, <sup>7</sup>&frasl;<sub>10</sub>",
-        "<sup>1</sup>&frasl;<sub>2</sub>, 0.58, <sup>3</sup>&frasl;<sub>5</sub>, <sup>7</sup>&frasl;<sub>10</sub>, 0.65"
+      type: "ordering",
+      prompt: "Put the following in ascending order (smallest to largest):",
+      items: [
+        { id: 1, label: frac(3, 5), val: 0.60 },
+        { id: 2, label: "0.65", val: 0.65 },
+        { id: 3, label: frac(1, 2), val: 0.50 },
+        { id: 4, label: "0.58", val: 0.58 },
+        { id: 5, label: frac(7, 10), val: 0.70 }
       ],
-      correctIndex: 0,
-      explanation: "Convert all to decimals: 3/5 = 0.60, 1/2 = 0.50, 7/10 = 0.70. Ascending order: 0.50 (1/2), 0.58, 0.60 (3/5), 0.65, 0.70 (7/10)."
+      explanation: "Converting to decimals: " + frac(1, 2) + " = 0.50, 0.58 = 0.58, " + frac(3, 5) + " = 0.60, 0.65 = 0.65, " + frac(7, 10) + " = 0.70. Ascending order: " + frac(1, 2) + ", 0.58, " + frac(3, 5) + ", 0.65, " + frac(7, 10) + "."
     },
+    // 8. Ordering Mixed Formats - Medium
     {
-      category: "Ordering Mixed Formats",
-      prompt: "Put the following in ascending order:<br><strong>-0.4, -<sup>3</sup>&frasl;<sub>4</sub>, 35%, -<sup>1</sup>&frasl;<sub>2</sub>, 0.3</strong>",
-      options: [
-        "-0.4, -<sup>1</sup>&frasl;<sub>2</sub>, -<sup>3</sup>&frasl;<sub>4</sub>, 0.3, 35%",
-        "-<sup>3</sup>&frasl;<sub>4</sub>, -<sup>1</sup>&frasl;<sub>2</sub>, -0.4, 0.3, 35%",
-        "-<sup>3</sup>&frasl;<sub>4</sub>, -0.4, -<sup>1</sup>&frasl;<sub>2</sub>, 0.3, 35%",
-        "-<sup>1</sup>&frasl;<sub>2</sub>, -<sup>3</sup>&frasl;<sub>4</sub>, -0.4, 35%, 0.3"
+      type: "ordering",
+      prompt: "Put the following in ascending order (smallest to largest):",
+      items: [
+        { id: 1, label: "-0.4", val: -0.40 },
+        { id: 2, label: "-" + frac(3, 4), val: -0.75 },
+        { id: 3, label: "35%", val: 0.35 },
+        { id: 4, label: "-" + frac(1, 2), val: -0.50 },
+        { id: 5, label: "0.3", val: 0.30 }
       ],
-      correctIndex: 1,
-      explanation: "Convert to decimals: -0.4, -3/4 = -0.75, 35% = 0.35, -1/2 = -0.5, 0.3. Ordered: -0.75 (-3/4), -0.5 (-1/2), -0.4, 0.3, 0.35 (35%)."
+      explanation: "Converting to decimals: -" + frac(3, 4) + " = -0.75, -" + frac(1, 2) + " = -0.50, -0.4 = -0.40, 0.3 = 0.30, 35% = 0.35. Ascending order: -" + frac(3, 4) + ", -" + frac(1, 2) + ", -0.4, 0.3, 35%."
     },
+    // 9. Ordering Mixed Formats - Hard
     {
-      category: "Ordering Mixed Formats",
-      prompt: "Put the following in ascending order:<br><strong>-<sup>2</sup>&frasl;<sub>3</sub>, 68%, -0.62, <sup>5</sup>&frasl;<sub>8</sub>, -65%</strong>",
-      options: [
-        "-0.62, -65%, -<sup>2</sup>&frasl;<sub>3</sub>, <sup>5</sup>&frasl;<sub>8</sub>, 68%",
-        "-<sup>2</sup>&frasl;<sub>3</sub>, -0.62, -65%, <sup>5</sup>&frasl;<sub>8</sub>, 68%",
-        "-<sup>2</sup>&frasl;<sub>3</sub>, -65%, -0.62, 68%, <sup>5</sup>&frasl;<sub>8</sub>",
-        "-<sup>2</sup>&frasl;<sub>3</sub>, -65%, -0.62, <sup>5</sup>&frasl;<sub>8</sub>, 68%"
+      type: "ordering",
+      prompt: "Put the following in ascending order (smallest to largest):",
+      items: [
+        { id: 1, label: "-" + frac(2, 3), val: -2 / 3 },
+        { id: 2, label: "68%", val: 0.68 },
+        { id: 3, label: "-0.62", val: -0.62 },
+        { id: 4, label: frac(5, 8), val: 0.625 },
+        { id: 5, label: "-65%", val: -0.65 }
       ],
-      correctIndex: 3,
-      explanation: "Convert to decimals: -2/3 ≈ -0.6667, 68% = 0.68, -0.62, 5/8 = 0.625, -65% = -0.65. Ordered: -2/3, -65%, -0.62, 5/8, 68%."
+      explanation: "Converting to decimals: -" + frac(2, 3) + " ≈ -0.667, -65% = -0.65, -0.62 = -0.62, " + frac(5, 8) + " = 0.625, 68% = 0.68. Ascending order: -" + frac(2, 3) + ", -65%, -0.62, " + frac(5, 8) + ", 68%."
     },
+    // 10. Ordering Mixed Formats - Extra
     {
-      category: "Ordering Mixed Formats",
-      prompt: "Put the following in ascending order:<br><strong>0.4, 45%, <sup>3</sup>&frasl;<sub>8</sub>, 0.35</strong>",
-      options: [
-        "0.35, <sup>3</sup>&frasl;<sub>8</sub>, 0.4, 45%",
-        "<sup>3</sup>&frasl;<sub>8</sub>, 0.35, 0.4, 45%",
-        "0.35, 0.4, <sup>3</sup>&frasl;<sub>8</sub>, 45%",
-        "0.35, <sup>3</sup>&frasl;<sub>8</sub>, 45%, 0.4"
+      type: "ordering",
+      prompt: "Put the following in ascending order (smallest to largest):",
+      items: [
+        { id: 1, label: "0.4", val: 0.40 },
+        { id: 2, label: "45%", val: 0.45 },
+        { id: 3, label: frac(3, 8), val: 0.375 },
+        { id: 4, label: "0.35", val: 0.35 }
       ],
-      correctIndex: 0,
-      explanation: "Convert to decimals: 0.4, 45% = 0.45, 3/8 = 0.375, 0.35. Ordered: 0.35, 0.375 (3/8), 0.4, 0.45 (45%)."
+      explanation: "Converting to decimals: 0.35 = 0.35, " + frac(3, 8) + " = 0.375, 0.4 = 0.40, 45% = 0.45. Ascending order: 0.35, " + frac(3, 8) + ", 0.4, 45%."
     }
   ];
 
   let currentIdx = 0;
   let score = 0;
-  let answered = false;
+  let placedItems = [];
 
+  // DOM elements
   const progressTag = document.getElementById("progress-tag");
   const instructionText = document.getElementById("instruction-text");
-  const questionText = document.getElementById("question-text");
-  const optionsGrid = document.getElementById("options-grid");
+  const questionPrompt = document.getElementById("question-prompt");
   const feedbackBanner = document.getElementById("feedback-banner");
   const nextBtn = document.getElementById("next-btn");
   const quizScreen = document.getElementById("quiz-screen");
@@ -407,69 +574,186 @@
   const scoreSummary = document.getElementById("score-summary");
   const restartBtn = document.getElementById("restart-btn");
 
-  const letters = ["A", "B", "C", "D"];
+  // Inequality elements
+  const inequalityView = document.getElementById("inequality-view");
+  const ineqLeft = document.getElementById("ineq-left");
+  const ineqRight = document.getElementById("ineq-right");
+  const symbolTarget = document.getElementById("symbol-target");
+  const symbolBtns = document.querySelectorAll(".symbol-btn");
+
+  // Ordering elements
+  const orderingView = document.getElementById("ordering-view");
+  const slotsContainer = document.getElementById("slots-container");
+  const poolContainer = document.getElementById("pool-container");
+  const resetOrderBtn = document.getElementById("reset-order-btn");
+  const checkOrderBtn = document.getElementById("check-order-btn");
 
   function loadQuestion(idx) {
-    answered = false;
     const q = questions[idx];
     progressTag.textContent = "Question " + (idx + 1) + " of " + questions.length;
-    instructionText.textContent = q.category === "Inequality Symbols" 
-      ? "Select the correct inequality symbol:" 
-      : "Select the option with the values in ascending order:";
-    questionText.innerHTML = q.prompt;
-    optionsGrid.innerHTML = "";
+    questionPrompt.innerHTML = q.prompt;
     feedbackBanner.style.display = "none";
     feedbackBanner.className = "feedback-banner";
     nextBtn.style.display = "none";
 
-    q.options.forEach(function(optText, optIdx) {
-      const card = document.createElement("div");
-      card.className = "option-card";
-      
-      const indicator = document.createElement("span");
-      indicator.className = "option-indicator";
-      indicator.textContent = letters[optIdx] || String(optIdx + 1);
+    if (q.type === "inequality") {
+      instructionText.textContent = "Select the correct inequality symbol to place into the box:";
+      orderingView.style.display = "none";
+      inequalityView.style.display = "block";
 
-      const label = document.createElement("span");
-      label.innerHTML = optText;
+      ineqLeft.innerHTML = q.leftHTML;
+      ineqRight.innerHTML = q.rightHTML;
+      symbolTarget.textContent = "?";
+      symbolTarget.className = "symbol-target-box";
 
-      card.appendChild(indicator);
-      card.appendChild(label);
+      symbolBtns.forEach(function(btn) {
+        btn.className = "symbol-btn";
+        btn.disabled = false;
+      });
+    } else {
+      instructionText.textContent = "Click numbers from the available pool to place them into the slots in ascending order:";
+      inequalityView.style.display = "none";
+      orderingView.style.display = "flex";
 
-      card.addEventListener("click", function() {
-        if (answered) return;
-        selectOption(optIdx);
+      placedItems = [];
+      renderOrderingUI(q);
+    }
+  }
+
+  // Inequality selection
+  symbolBtns.forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      const q = questions[currentIdx];
+      const chosen = btn.getAttribute("data-sym");
+      symbolBtns.forEach(function(b) {
+        b.classList.add("disabled");
+        b.disabled = true;
       });
 
-      optionsGrid.appendChild(card);
+      symbolTarget.textContent = chosen;
+      symbolTarget.classList.add("filled");
+
+      if (chosen === q.correctSymbol) {
+        score++;
+        btn.classList.add("correct");
+        symbolTarget.classList.add("correct");
+        feedbackBanner.className = "feedback-banner correct";
+        feedbackBanner.innerHTML = "<strong>Correct!</strong> " + q.explanation;
+      } else {
+        btn.classList.add("incorrect");
+        symbolTarget.classList.add("incorrect");
+        symbolBtns.forEach(function(b) {
+          if (b.getAttribute("data-sym") === q.correctSymbol) {
+            b.classList.add("correct");
+          }
+        });
+        feedbackBanner.className = "feedback-banner incorrect";
+        feedbackBanner.innerHTML = "<strong>Incorrect.</strong> " + q.explanation;
+      }
+
+      feedbackBanner.style.display = "block";
+      nextBtn.style.display = "inline-block";
+    });
+  });
+
+  // Ordering logic
+  function renderOrderingUI(q) {
+    slotsContainer.innerHTML = "";
+    poolContainer.innerHTML = "";
+    checkOrderBtn.disabled = false;
+    resetOrderBtn.disabled = false;
+
+    // Render answer slots
+    for (let i = 0; i < q.items.length; i++) {
+      const slot = document.createElement("div");
+      slot.className = "number-slot";
+
+      if (i < placedItems.length) {
+        const item = placedItems[i];
+        slot.innerHTML = item.label;
+        slot.classList.add("filled");
+        slot.title = "Click to remove";
+
+        slot.addEventListener("click", function() {
+          if (nextBtn.style.display === "inline-block") return; // already submitted
+          placedItems.splice(i, 1);
+          renderOrderingUI(q);
+        });
+      } else {
+        slot.textContent = "(" + (i + 1) + ")";
+      }
+      slotsContainer.appendChild(slot);
+    }
+
+    // Render available pool chips
+    q.items.forEach(function(item) {
+      const isUsed = placedItems.some(function(p) { return p.id === item.id; });
+      const chip = document.createElement("div");
+      chip.className = "chip-item" + (isUsed ? " used" : "");
+      chip.innerHTML = item.label;
+
+      chip.addEventListener("click", function() {
+        if (isUsed || nextBtn.style.display === "inline-block") return;
+        if (placedItems.length < q.items.length) {
+          placedItems.push(item);
+          renderOrderingUI(q);
+        }
+      });
+
+      poolContainer.appendChild(chip);
     });
   }
 
-  function selectOption(selectedIdx) {
-    answered = true;
-    const q = questions[currentIdx];
-    const cards = optionsGrid.querySelectorAll(".option-card");
+  resetOrderBtn.addEventListener("click", function() {
+    if (nextBtn.style.display === "inline-block") return;
+    placedItems = [];
+    renderOrderingUI(questions[currentIdx]);
+  });
 
-    cards.forEach(function(c) {
-      c.classList.add("disabled");
+  checkOrderBtn.addEventListener("click", function() {
+    const q = questions[currentIdx];
+    if (placedItems.length < q.items.length) {
+      feedbackBanner.className = "feedback-banner incorrect";
+      feedbackBanner.innerHTML = "Please place all " + q.items.length + " numbers into the slots before checking.";
+      feedbackBanner.style.display = "block";
+      return;
+    }
+
+    // Programmatic verification of sorted order
+    const sortedTargets = q.items.slice().sort(function(a, b) {
+      return a.val - b.val;
     });
 
-    if (selectedIdx === q.correctIndex) {
+    let allCorrect = true;
+    const slots = slotsContainer.querySelectorAll(".number-slot");
+
+    slots.forEach(function(slot, index) {
+      slot.classList.add("checked");
+      if (placedItems[index].id === sortedTargets[index].id) {
+        slot.classList.add("correct");
+      } else {
+        slot.classList.add("incorrect");
+        allCorrect = false;
+      }
+    });
+
+    checkOrderBtn.disabled = true;
+    resetOrderBtn.disabled = true;
+
+    if (allCorrect) {
       score++;
-      cards[selectedIdx].classList.add("correct");
       feedbackBanner.className = "feedback-banner correct";
       feedbackBanner.innerHTML = "<strong>Correct!</strong> " + q.explanation;
     } else {
-      cards[selectedIdx].classList.add("incorrect");
-      cards[q.correctIndex].classList.add("correct");
       feedbackBanner.className = "feedback-banner incorrect";
       feedbackBanner.innerHTML = "<strong>Incorrect.</strong> " + q.explanation;
     }
 
     feedbackBanner.style.display = "block";
     nextBtn.style.display = "inline-block";
-  }
+  });
 
+  // Navigation & Results
   nextBtn.addEventListener("click", function() {
     currentIdx++;
     if (currentIdx < questions.length) {
@@ -485,11 +769,11 @@
     finalScore.textContent = score + " / " + questions.length;
     const pct = Math.round((score / questions.length) * 100);
     if (pct >= 80) {
-      scoreSummary.textContent = "Outstanding work! You have mastered ordering decimals, fractions, percentages, and inequalities.";
+      scoreSummary.textContent = "Outstanding work! You have a solid grasp of ordering decimals, negatives, fractions, and inequality signs.";
     } else if (pct >= 50) {
-      scoreSummary.textContent = "Good effort! Revise negative decimals and fraction-to-decimal conversions for further improvement.";
+      scoreSummary.textContent = "Good effort! Revise comparing negative values and converting fractions to decimals to secure full marks.";
     } else {
-      scoreSummary.textContent = "Keep practising! Remember to convert all numbers to decimals with matching place values before ordering.";
+      scoreSummary.textContent = "Keep practising! Remember to write all numbers in common decimal places to compare their place values reliably.";
     }
   }
 
