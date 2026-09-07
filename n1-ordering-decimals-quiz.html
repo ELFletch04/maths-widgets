@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ordering Decimals & Numbers Quiz</title>
+  <title>Ordering Numbers & Decimals Quiz</title>
   <style>
     * {
       box-sizing: border-box;
@@ -77,7 +77,7 @@
       align-items: center;
       justify-content: center;
       gap: 14px;
-      padding: 20px;
+      padding: 18px;
       background: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 8px;
@@ -96,7 +96,7 @@
       justify-content: center;
       background: #ffffff;
       color: #2563eb;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 700;
       transition: all 0.15s ease;
     }
@@ -124,7 +124,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      margin-top: 14px;
+      margin-top: 12px;
     }
 
     .symbol-btn {
@@ -168,7 +168,7 @@
     .ordering-area {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
     .slots-label {
@@ -193,7 +193,7 @@
 
     .number-slot {
       flex: 1 1 calc(20% - 8px);
-      min-width: 60px;
+      min-width: 58px;
       height: 44px;
       border: 1.5px dashed #cbd5e1;
       border-radius: 6px;
@@ -273,7 +273,7 @@
       margin-top: 4px;
     }
 
-    /* Feedback & Global Controls */
+    /* Feedback & Controls */
     .feedback-banner {
       font-size: 0.875rem;
       line-height: 1.45;
@@ -388,7 +388,7 @@
     <div class="instructions" id="instruction-text">Loading instructions...</div>
     <div class="question-prompt" id="question-prompt" style="margin-top: 10px;"></div>
 
-    <!-- Container for Inequality Questions -->
+    <!-- Inequality Question View -->
     <div id="inequality-view" style="display: none; margin-top: 14px;">
       <div class="inequality-container">
         <span id="ineq-left"></span>
@@ -402,7 +402,7 @@
       </div>
     </div>
 
-    <!-- Container for Interactive Ordering Questions -->
+    <!-- Ordering Question View -->
     <div id="ordering-view" style="display: none; margin-top: 14px;" class="ordering-area">
       <div class="slots-label">Your Order (Smallest to Largest):</div>
       <div class="slots-container" id="slots-container"></div>
@@ -439,122 +439,133 @@
   };
 
   const questions = [
-    // 1. Ordering Decimals - Easy
+    /* ----------------------------------------------------
+       Section 1: Pure Decimals (Questions 1 to 3)
+       ---------------------------------------------------- */
+    // Q1: Easy - 1 and 2 decimal place positive numbers
     {
       type: "ordering",
-      prompt: "Put the following in ascending order (smallest to largest):",
+      prompt: "Put the following decimals in ascending order (smallest to largest):",
       items: [
-        { id: 1, label: "0.12", val: 0.12 },
-        { id: 2, label: "0.03", val: 0.03 },
-        { id: 3, label: "0.05", val: 0.05 },
-        { id: 4, label: "0.2", val: 0.20 },
-        { id: 5, label: "0.14", val: 0.14 }
+        { id: 1, label: "0.31", val: 0.31 },
+        { id: 2, label: "0.04", val: 0.04 },
+        { id: 3, label: "0.08", val: 0.08 },
+        { id: 4, label: "0.3",  val: 0.30 },
+        { id: 5, label: "0.27", val: 0.27 }
       ],
-      explanation: "Writing all numbers with two decimal places: 0.03, 0.05, 0.12, 0.14, 0.20. Ascending order: 0.03, 0.05, 0.12, 0.14, 0.2."
+      explanation: "Padding to 2 decimal places: 0.04, 0.08, 0.27, 0.30, 0.31. Ascending order: 0.04, 0.08, 0.27, 0.3, 0.31."
     },
-    // 2. Ordering Decimals - Medium
+    // Q2: Medium - 2, 3, and 4 decimal places with shared prefixes
     {
       type: "ordering",
-      prompt: "Put the following in ascending order (smallest to largest):",
+      prompt: "Put the following decimals in ascending order (smallest to largest):",
       items: [
-        { id: 1, label: "0.14", val: 0.1400 },
-        { id: 2, label: "0.014", val: 0.0140 },
-        { id: 3, label: "0.1401", val: 0.1401 },
-        { id: 4, label: "0.44", val: 0.4400 },
-        { id: 5, label: "0.41", val: 0.4100 }
+        { id: 1, label: "0.26",   val: 0.2600 },
+        { id: 2, label: "0.026",  val: 0.0260 },
+        { id: 3, label: "0.2605", val: 0.2605 },
+        { id: 4, label: "0.62",   val: 0.6200 },
+        { id: 5, label: "0.602",  val: 0.6020 }
       ],
-      explanation: "Comparing place values: 0.014 has 0 tenths; 0.1400 and 0.1401 have 1 tenth; 0.41 and 0.44 have 4 tenths. Ascending order: 0.014, 0.14, 0.1401, 0.41, 0.44."
+      explanation: "Comparing place values digit-by-digit: 0.026 (tenths = 0), then 0.2600, 0.2605, 0.6020, and 0.6200. Ascending order: 0.026, 0.26, 0.2605, 0.602, 0.62."
     },
-    // 3. Ordering Decimals - Hard
+    // Q3: Hard - Mix of positive and negative decimals
     {
       type: "ordering",
-      prompt: "Put the following in ascending order (smallest to largest):",
+      prompt: "Put the following decimals in ascending order (smallest to largest):",
       items: [
-        { id: 1, label: "0.05", val: 0.05 },
-        { id: 2, label: "-0.50", val: -0.50 },
-        { id: 3, label: "0.15", val: 0.15 },
-        { id: 4, label: "-0.51", val: -0.51 },
-        { id: 5, label: "0.51", val: 0.51 }
+        { id: 1, label: "0.07",  val: 0.07 },
+        { id: 2, label: "-0.40", val: -0.40 },
+        { id: 3, label: "0.24",  val: 0.24 },
+        { id: 4, label: "-0.42", val: -0.42 },
+        { id: 5, label: "0.42",  val: 0.42 }
       ],
-      explanation: "Comparing negative numbers first: -0.51 is further left than -0.50. The positives are 0.05 < 0.15 < 0.51. Ascending order: -0.51, -0.50, 0.05, 0.15, 0.51."
+      explanation: "On a number line, -0.42 is further left than -0.40. Positive values order as 0.07 < 0.24 < 0.42. Ascending order: -0.42, -0.40, 0.07, 0.24, 0.42."
     },
-    // 4. Inequality - Easy
+
+    /* ----------------------------------------------------
+       Section 2: Inequality Symbols (Questions 4 to 6)
+       ---------------------------------------------------- */
+    // Q4: Easy - Integers (positive vs negative)
     {
       type: "inequality",
-      prompt: "Fill in the missing symbol using &lt;, &gt;, or = :",
-      leftHTML: "12",
-      rightHTML: "9",
-      correctSymbol: ">",
-      explanation: "12 is greater than 9, so 12 > 9."
-    },
-    // 5. Inequality - Medium
-    {
-      type: "inequality",
-      prompt: "Fill in the missing symbol using &lt;, &gt;, or = :",
-      leftHTML: "-2",
-      rightHTML: "-1.7",
+      prompt: "Fill in the box using &lt;, &gt;, or = :",
+      leftHTML: "-8",
+      rightHTML: "5",
       correctSymbol: "<",
-      explanation: "On a number line, -2 is further to the left than -1.7, so -2 < -1.7."
+      explanation: "-8 is a negative number and 5 is positive, so -8 < 5."
     },
-    // 6. Inequality - Hard
+    // Q5: Medium - Decimals (negative vs negative)
     {
       type: "inequality",
-      prompt: "Fill in the missing symbol using &lt;, &gt;, or = :",
-      leftHTML: "0.25",
-      rightHTML: frac(1, 4),
+      prompt: "Fill in the box using &lt;, &gt;, or = :",
+      leftHTML: "-3.1",
+      rightHTML: "-3.4",
+      correctSymbol: ">",
+      explanation: "-3.1 is to the right of -3.4 on a number line, making -3.1 greater than -3.4 (-3.1 > -3.4)."
+    },
+    // Q6: Hard - Decimals vs Fractions
+    {
+      type: "inequality",
+      prompt: "Fill in the box using &lt;, &gt;, or = :",
+      leftHTML: "0.75",
+      rightHTML: frac(3, 4),
       correctSymbol: "=",
-      explanation: "1 ÷ 4 = 0.25. Since both values are equal, 0.25 = " + frac(1, 4) + "."
+      explanation: "3 ÷ 4 = 0.75. Both values represent the exact same amount, so 0.75 = " + frac(3, 4) + "."
     },
-    // 7. Ordering Mixed Formats - Easy
+
+    /* ----------------------------------------------------
+       Section 3: Ordering Mixed Formats (Questions 7 to 10)
+       ---------------------------------------------------- */
+    // Q7: Easy - Positive fractions and decimals
     {
       type: "ordering",
-      prompt: "Put the following in ascending order (smallest to largest):",
+      prompt: "Put the following numbers in ascending order (smallest to largest):",
       items: [
-        { id: 1, label: frac(3, 5), val: 0.60 },
-        { id: 2, label: "0.65", val: 0.65 },
-        { id: 3, label: frac(1, 2), val: 0.50 },
-        { id: 4, label: "0.58", val: 0.58 },
-        { id: 5, label: frac(7, 10), val: 0.70 }
+        { id: 1, label: frac(2, 5), val: 0.40 },
+        { id: 2, label: "0.45",     val: 0.45 },
+        { id: 3, label: frac(1, 4), val: 0.25 },
+        { id: 4, label: "0.38",     val: 0.38 },
+        { id: 5, label: frac(9, 10),val: 0.90 }
       ],
-      explanation: "Converting to decimals: " + frac(1, 2) + " = 0.50, 0.58 = 0.58, " + frac(3, 5) + " = 0.60, 0.65 = 0.65, " + frac(7, 10) + " = 0.70. Ascending order: " + frac(1, 2) + ", 0.58, " + frac(3, 5) + ", 0.65, " + frac(7, 10) + "."
+      explanation: "Converting to decimals: " + frac(1, 4) + " = 0.25, 0.38, " + frac(2, 5) + " = 0.40, 0.45, " + frac(9, 10) + " = 0.90. Ascending order: " + frac(1, 4) + ", 0.38, " + frac(2, 5) + ", 0.45, " + frac(9, 10) + "."
     },
-    // 8. Ordering Mixed Formats - Medium
+    // Q8: Medium - Mixed negative fractions, decimals, and percentages
     {
       type: "ordering",
-      prompt: "Put the following in ascending order (smallest to largest):",
+      prompt: "Put the following numbers in ascending order (smallest to largest):",
       items: [
-        { id: 1, label: "-0.4", val: -0.40 },
-        { id: 2, label: "-" + frac(3, 4), val: -0.75 },
-        { id: 3, label: "35%", val: 0.35 },
-        { id: 4, label: "-" + frac(1, 2), val: -0.50 },
-        { id: 5, label: "0.3", val: 0.30 }
+        { id: 1, label: "-0.3",      val: -0.30 },
+        { id: 2, label: "-" + frac(4, 5), val: -0.80 },
+        { id: 3, label: "45%",       val: 0.45 },
+        { id: 4, label: "-" + frac(1, 4), val: -0.25 },
+        { id: 5, label: "0.2",       val: 0.20 }
       ],
-      explanation: "Converting to decimals: -" + frac(3, 4) + " = -0.75, -" + frac(1, 2) + " = -0.50, -0.4 = -0.40, 0.3 = 0.30, 35% = 0.35. Ascending order: -" + frac(3, 4) + ", -" + frac(1, 2) + ", -0.4, 0.3, 35%."
+      explanation: "Converting to decimals: -" + frac(4, 5) + " = -0.80, -0.3 = -0.30, -" + frac(1, 4) + " = -0.25, 0.2 = 0.20, 45% = 0.45. Ascending order: -" + frac(4, 5) + ", -0.3, -" + frac(1, 4) + ", 0.2, 45%."
     },
-    // 9. Ordering Mixed Formats - Hard
+    // Q9: Hard - Thirds, eighths, recurring decimals, negative percentages
     {
       type: "ordering",
-      prompt: "Put the following in ascending order (smallest to largest):",
+      prompt: "Put the following numbers in ascending order (smallest to largest):",
       items: [
-        { id: 1, label: "-" + frac(2, 3), val: -2 / 3 },
-        { id: 2, label: "68%", val: 0.68 },
-        { id: 3, label: "-0.62", val: -0.62 },
-        { id: 4, label: frac(5, 8), val: 0.625 },
-        { id: 5, label: "-65%", val: -0.65 }
+        { id: 1, label: "-" + frac(1, 3), val: -1 / 3 },
+        { id: 2, label: "72%",       val: 0.72 },
+        { id: 3, label: "-0.35",     val: -0.35 },
+        { id: 4, label: frac(7, 8),  val: 0.875 },
+        { id: 5, label: "-40%",      val: -0.40 }
       ],
-      explanation: "Converting to decimals: -" + frac(2, 3) + " ≈ -0.667, -65% = -0.65, -0.62 = -0.62, " + frac(5, 8) + " = 0.625, 68% = 0.68. Ascending order: -" + frac(2, 3) + ", -65%, -0.62, " + frac(5, 8) + ", 68%."
+      explanation: "Converting to decimals: -40% = -0.40, -0.35 = -0.35, -" + frac(1, 3) + " ≈ -0.333, 72% = 0.72, " + frac(7, 8) + " = 0.875. Ascending order: -40%, -0.35, -" + frac(1, 3) + ", 72%, " + frac(7, 8) + "."
     },
-    // 10. Ordering Mixed Formats - Extra
+    // Q10: Extra Mixed Formats - 4-item set
     {
       type: "ordering",
-      prompt: "Put the following in ascending order (smallest to largest):",
+      prompt: "Put the following numbers in ascending order (smallest to largest):",
       items: [
-        { id: 1, label: "0.4", val: 0.40 },
-        { id: 2, label: "45%", val: 0.45 },
-        { id: 3, label: frac(3, 8), val: 0.375 },
-        { id: 4, label: "0.35", val: 0.35 }
+        { id: 1, label: "0.6",      val: 0.60 },
+        { id: 2, label: "55%",      val: 0.55 },
+        { id: 3, label: frac(5, 8), val: 0.625 },
+        { id: 4, label: "0.52",     val: 0.52 }
       ],
-      explanation: "Converting to decimals: 0.35 = 0.35, " + frac(3, 8) + " = 0.375, 0.4 = 0.40, 45% = 0.45. Ascending order: 0.35, " + frac(3, 8) + ", 0.4, 45%."
+      explanation: "Converting to decimals: 0.52 = 0.52, 55% = 0.55, 0.6 = 0.60, " + frac(5, 8) + " = 0.625. Ascending order: 0.52, 55%, 0.6, " + frac(5, 8) + "."
     }
   ];
 
@@ -620,7 +631,7 @@
     }
   }
 
-  // Inequality selection
+  // Inequality selection handling
   symbolBtns.forEach(function(btn) {
     btn.addEventListener("click", function() {
       const q = questions[currentIdx];
@@ -663,7 +674,7 @@
     checkOrderBtn.disabled = false;
     resetOrderBtn.disabled = false;
 
-    // Render answer slots
+    // Render slots
     for (let i = 0; i < q.items.length; i++) {
       const slot = document.createElement("div");
       slot.className = "number-slot";
@@ -675,7 +686,7 @@
         slot.title = "Click to remove";
 
         slot.addEventListener("click", function() {
-          if (nextBtn.style.display === "inline-block") return; // already submitted
+          if (nextBtn.style.display === "inline-block") return;
           placedItems.splice(i, 1);
           renderOrderingUI(q);
         });
@@ -719,7 +730,7 @@
       return;
     }
 
-    // Programmatic verification of sorted order
+    // Programmatic verification using numerical values
     const sortedTargets = q.items.slice().sort(function(a, b) {
       return a.val - b.val;
     });
