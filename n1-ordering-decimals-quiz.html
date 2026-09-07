@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ordering Numbers Quiz - GCSE Maths</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ordering Numbers & Decimals Quiz</title>
   <style>
-    *, *::before, *::after {
+    * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -13,8 +13,8 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: transparent;
-      color: #0f172a;
+      background-color: transparent;
+      color: #1e293b;
       display: flex;
       justify-content: center;
       align-items: flex-start;
@@ -22,299 +22,175 @@
       min-height: 100vh;
     }
 
-    .quiz-card {
-      width: 100%;
-      max-width: 520px;
-      background: #ffffff;
+    .widget-card {
+      background-color: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 10px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      width: 100%;
+      max-width: 520px;
       padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
 
     .header {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 12px;
-      gap: 12px;
+      align-items: center;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 12px;
     }
 
     .title {
       font-size: 1.15rem;
       font-weight: 600;
       color: #0f172a;
-      line-height: 1.3;
     }
 
-    .badge-wrap {
-      display: flex;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-
-    .tier-badge {
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 999px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .tier-easy {
-      background: #ecfdf5;
-      color: #047857;
-      border: 1px solid #a7f3d0;
-    }
-
-    .tier-medium {
-      background: #eff6ff;
-      color: #1d4ed8;
-      border: 1px solid #bfdbfe;
-    }
-
-    .tier-hard {
-      background: #fef2f2;
-      color: #b91c1c;
-      border: 1px solid #fecaca;
-    }
-
-    .q-counter {
-      font-size: 0.75rem;
+    .progress-tag {
+      font-size: 0.8rem;
       font-weight: 600;
       color: #64748b;
       background: #f1f5f9;
-      padding: 3px 8px;
-      border-radius: 999px;
-    }
-
-    .progress-bar-bg {
-      width: 100%;
-      height: 4px;
-      background: #e2e8f0;
-      border-radius: 999px;
-      margin-bottom: 18px;
-      overflow: hidden;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      background: #2563eb;
-      width: 10%;
-      transition: width 0.3s ease;
+      padding: 4px 10px;
+      border-radius: 12px;
     }
 
     .instructions {
       font-size: 0.875rem;
       color: #64748b;
-      margin-bottom: 8px;
     }
 
-    .question-prompt {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #1e293b;
-      margin-bottom: 16px;
-      line-height: 1.4;
-    }
-
-    .interactive-zone {
-      background: #f8fafc;
+    .question-box {
+      background-color: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 8px;
       padding: 16px;
-      margin-bottom: 16px;
-      min-height: 110px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      text-align: center;
     }
 
-    .tokens-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .token {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      padding: 8px 14px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #0f172a;
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.15s ease;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .token:hover {
-      border-color: #94a3b8;
-      background: #f8fafc;
-      transform: translateY(-1px);
-    }
-
-    .token.selected {
-      border-color: #2563eb;
-      background: #eff6ff;
-      color: #1d4ed8;
-    }
-
-    .slot-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .slot {
-      min-width: 68px;
-      height: 42px;
-      border: 2px dashed #cbd5e1;
-      border-radius: 6px;
-      background: #ffffff;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 10px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: #0f172a;
-      cursor: pointer;
-    }
-
-    .slot.filled {
-      border-style: solid;
-      border-color: #94a3b8;
-      background: #f8fafc;
-    }
-
-    .ineq-symbol {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #475569;
-      user-select: none;
-    }
-
-    .symbols-options {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 8px;
-    }
-
-    .symbol-choice-btn {
-      min-width: 52px;
-      height: 42px;
-      font-size: 1.25rem;
-      font-weight: 700;
-      border: 1px solid #cbd5e1;
-      background: #ffffff;
-      color: #0f172a;
-      border-radius: 6px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s ease;
-    }
-
-    .symbol-choice-btn:hover {
-      background: #f1f5f9;
-      border-color: #94a3b8;
-    }
-
-    .symbol-choice-btn.selected {
-      background: #eff6ff;
-      border-color: #2563eb;
-      color: #1d4ed8;
-    }
-
-    .comparison-display {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      font-size: 1.2rem;
+    .question-text {
+      font-size: 1rem;
       font-weight: 600;
       color: #1e293b;
-      margin-bottom: 12px;
+      line-height: 1.5;
     }
 
-    .symbol-placeholder {
-      width: 44px;
-      height: 44px;
-      border: 2px dashed #94a3b8;
-      border-radius: 6px;
+    .options-grid {
       display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-card {
+      background-color: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      color: #1e293b;
+      cursor: pointer;
+      text-align: left;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+    }
+
+    .option-card:hover:not(.disabled) {
+      background-color: #f8fafc;
+      border-color: #94a3b8;
+    }
+
+    .option-indicator {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: #2563eb;
-      background: #ffffff;
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #64748b;
+      flex-shrink: 0;
     }
 
-    .feedback-box {
+    .option-card.correct {
+      border-color: #16a34a;
+      background-color: #f0fdf4;
+      color: #15803d;
+      font-weight: 600;
+    }
+
+    .option-card.correct .option-indicator {
+      border-color: #16a34a;
+      background-color: #16a34a;
+      color: #ffffff;
+    }
+
+    .option-card.incorrect {
+      border-color: #dc2626;
+      background-color: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .option-card.incorrect .option-indicator {
+      border-color: #dc2626;
+      background-color: #dc2626;
+      color: #ffffff;
+    }
+
+    .option-card.disabled {
+      cursor: default;
+    }
+
+    .feedback-banner {
       font-size: 0.875rem;
-      font-weight: 500;
-      min-height: 22px;
-      margin-bottom: 16px;
       line-height: 1.4;
+      padding: 12px;
+      border-radius: 6px;
+      display: none;
     }
 
-    .feedback-box.success {
-      color: #16a34a;
+    .feedback-banner.correct {
+      display: block;
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
     }
 
-    .feedback-box.error {
-      color: #dc2626;
+    .feedback-banner.incorrect {
+      display: block;
+      background-color: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
     }
 
-    .feedback-box.warning {
-      color: #d97706;
-    }
-
-    .actions {
+    .footer {
       display: flex;
-      gap: 10px;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .btn-group-right {
-      display: flex;
+      justify-content: flex-end;
       gap: 8px;
+      padding-top: 8px;
     }
 
     .btn-primary {
-      background: #0f172a;
+      background-color: #0f172a;
       color: #ffffff;
       border: none;
       border-radius: 6px;
-      padding: 8px 16px;
-      font-size: 0.875rem;
+      padding: 8px 18px;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s ease;
+      display: none;
     }
 
     .btn-primary:hover {
-      background: #1e293b;
-    }
-
-    .btn-primary:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+      background-color: #1e293b;
     }
 
     .btn-secondary {
@@ -322,11 +198,10 @@
       border: 1px solid #cbd5e1;
       color: #475569;
       border-radius: 6px;
-      padding: 8px 14px;
-      font-size: 0.875rem;
+      padding: 8px 16px;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.15s ease;
     }
 
     .btn-secondary:hover {
@@ -334,30 +209,25 @@
       border-color: #94a3b8;
     }
 
-    .summary-view {
+    .score-view {
       text-align: center;
-      padding: 16px 8px;
+      padding: 24px 0;
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
     }
 
-    .summary-title {
-      font-size: 1.25rem;
+    .score-view .score-heading {
+      font-size: 1.35rem;
       font-weight: 700;
       color: #0f172a;
-      margin-bottom: 8px;
     }
 
-    .summary-score {
-      font-size: 2.25rem;
+    .score-view .score-display {
+      font-size: 2.2rem;
       font-weight: 700;
       color: #2563eb;
-      margin-bottom: 12px;
-    }
-
-    .summary-text {
-      font-size: 0.95rem;
-      color: #475569;
-      margin-bottom: 24px;
-      line-height: 1.5;
     }
 
     .fraction {
@@ -365,489 +235,275 @@
       flex-direction: column;
       vertical-align: middle;
       text-align: center;
-      font-size: 0.88em;
-      line-height: 1;
       padding: 0 2px;
+      font-size: 0.9em;
+      line-height: 1;
     }
 
-    .numerator {
-      border-bottom: 1.5px solid currentColor;
+    .fraction-top {
+      border-bottom: 1px solid currentColor;
       padding-bottom: 1px;
     }
 
-    .denominator {
+    .fraction-bottom {
       padding-top: 1px;
     }
   </style>
 </head>
 <body>
-  <div class="quiz-card">
-    <div class="header">
-      <h1 class="title">Ordering Decimals & Mixed Formats</h1>
-      <div class="badge-wrap">
-        <span id="tier-badge" class="tier-badge tier-easy">Easy</span>
-        <span id="q-counter" class="q-counter">1 / 10</span>
-      </div>
+
+<div class="widget-card">
+  <div class="header">
+    <div class="title">Ordering Decimals & Numbers</div>
+    <div class="progress-tag" id="progress-tag">Question 1 of 10</div>
+  </div>
+
+  <div id="quiz-screen">
+    <div class="instructions" id="instruction-text">Choose the correct ascending sequence:</div>
+    <div class="question-box" style="margin-top: 10px;">
+      <div class="question-text" id="question-text">Loading...</div>
     </div>
 
-    <div class="progress-bar-bg">
-      <div id="progress-bar" class="progress-bar-fill"></div>
-    </div>
+    <div class="options-grid" id="options-grid" style="margin-top: 14px;"></div>
 
-    <div id="quiz-screen">
-      <div id="instruction-text" class="instructions">Click items in order to arrange them.</div>
-      <div id="prompt-text" class="question-prompt">Arrange these decimals in ascending order:</div>
+    <div class="feedback-banner" id="feedback-banner" style="margin-top: 12px;"></div>
 
-      <div class="interactive-zone" id="interactive-zone">
-        <!-- Injected via JavaScript -->
-      </div>
-
-      <div id="feedback-message" class="feedback-box"></div>
-
-      <div class="actions">
-        <button id="reset-btn" class="btn-secondary" type="button">Reset</button>
-        <div class="btn-group-right">
-          <button id="check-btn" class="btn-primary" type="button">Check Answer</button>
-          <button id="next-btn" class="btn-primary" type="button" style="display: none;">Next Question</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="summary-screen" class="summary-view" style="display: none;">
-      <h2 class="summary-title">Quiz Complete!</h2>
-      <div id="final-score" class="summary-score">0 / 10</div>
-      <p id="summary-comment" class="summary-text">Well done on completing the practice set.</p>
-      <button id="restart-btn" class="btn-primary" type="button">Practice Again</button>
+    <div class="footer" style="margin-top: 12px;">
+      <button class="btn-primary" id="next-btn">Next Question →</button>
     </div>
   </div>
 
-  <script>
-    const quizData = [
-      {
-        id: 1,
-        tier: "Easy",
-        type: "order-asc",
-        instruction: "Tap the values below in ascending order (smallest to largest).",
-        prompt: "Write these decimals in order of size, starting with the smallest:",
-        items: [
-          { text: "0.3", val: 0.3 },
-          { text: "0.08", val: 0.08 },
-          { text: "0.45", val: 0.45 },
-          { text: "0.201", val: 0.201 }
-        ]
-      },
-      {
-        id: 2,
-        tier: "Easy",
-        type: "inequality",
-        instruction: "Select the correct inequality symbol to make the statement true.",
-        prompt: "Choose the correct symbol (<, =, >) to complete the inequality:",
-        left: { text: "0.405", val: 0.405 },
-        right: { text: "0.45", val: 0.45 }
-      },
-      {
-        id: 3,
-        tier: "Easy",
-        type: "order-desc",
-        instruction: "Tap the values below in descending order (largest to smallest).",
-        prompt: "Write these numbers in order of size, starting with the largest:",
-        items: [
-          { text: "1.2", val: 1.2 },
-          { text: "1.02", val: 1.02 },
-          { text: "1.205", val: 1.205 },
-          { text: "0.98", val: 0.98 }
-        ]
-      },
-      {
-        id: 4,
-        tier: "Medium",
-        type: "order-asc",
-        instruction: "Tap the values below in ascending order (smallest to largest).",
-        prompt: "Place these values in ascending order:",
-        items: [
-          { text: "0.35", val: 0.35 },
-          { text: "30%", val: 0.30 },
-          { text: '<span class="fraction"><span class="numerator">2</span><span class="denominator">5</span></span>', rawText: "2/5", val: 0.40 },
-          { text: "0.038", val: 0.038 }
-        ]
-      },
-      {
-        id: 5,
-        tier: "Medium",
-        type: "inequality",
-        instruction: "Select the correct inequality symbol to compare the two values.",
-        prompt: "Choose the correct symbol (<, =, >) to complete the statement:",
-        left: { text: '<span class="fraction"><span class="numerator">3</span><span class="denominator">8</span></span>', rawText: "3/8", val: 0.375 },
-        right: { text: "37%", rawText: "37%", val: 0.37 }
-      },
-      {
-        id: 6,
-        tier: "Medium",
-        type: "order-desc",
-        instruction: "Tap the values below in descending order (largest to smallest).",
-        prompt: "Arrange these values in descending order:",
-        items: [
-          { text: "0.75", val: 0.75 },
-          { text: "70%", val: 0.70 },
-          { text: '<span class="fraction"><span class="numerator">4</span><span class="denominator">5</span></span>', rawText: "4/5", val: 0.80 },
-          { text: "0.708", val: 0.708 }
-        ]
-      },
-      {
-        id: 7,
-        tier: "Medium",
-        type: "order-asc",
-        instruction: "Tap the decimals below in ascending order (smallest to largest).",
-        prompt: "Write these negative and positive decimals in ascending order:",
-        items: [
-          { text: "-0.4", val: -0.4 },
-          { text: "-0.05", val: -0.05 },
-          { text: "0.35", val: 0.35 },
-          { text: "-0.42", val: -0.42 }
-        ]
-      },
-      {
-        id: 8,
-        tier: "Hard",
-        type: "order-asc",
-        instruction: "Tap the values below in ascending order (smallest to largest).",
-        prompt: "Order these mixed fractions, decimals, and percentages from smallest to largest:",
-        items: [
-          { text: '<span class="fraction"><span class="numerator">5</span><span class="denominator">8</span></span>', rawText: "5/8", val: 0.625 },
-          { text: "0.62", val: 0.62 },
-          { text: "63%", val: 0.63 },
-          { text: '<span class="fraction"><span class="numerator">2</span><span class="denominator">3</span></span>', rawText: "2/3", val: 0.6666667 }
-        ]
-      },
-      {
-        id: 9,
-        tier: "Hard",
-        type: "inequality",
-        instruction: "Select the correct inequality symbol to compare the two values.",
-        prompt: "Choose the correct symbol (<, =, >) to complete the inequality:",
-        left: { text: "-0.32", rawText: "-0.32", val: -0.32 },
-        right: { text: "-0.305", rawText: "-0.305", val: -0.305 }
-      },
-      {
-        id: 10,
-        tier: "Hard",
-        type: "order-desc",
-        instruction: "Tap the values below in descending order (largest to smallest).",
-        prompt: "Order these mixed formats from largest to smallest:",
-        items: [
-          { text: '<span class="fraction"><span class="numerator">7</span><span class="denominator">20</span></span>', rawText: "7/20", val: 0.35 },
-          { text: "0.34", val: 0.34 },
-          { text: "36.5%", val: 0.365 },
-          { text: '<span class="fraction"><span class="numerator">1</span><span class="denominator">3</span></span>', rawText: "1/3", val: 0.3333333 }
-        ]
-      }
-    ];
+  <div class="score-view" id="score-view">
+    <div class="score-heading">Quiz Completed!</div>
+    <div class="score-display" id="final-score">0 / 10</div>
+    <div class="instructions" id="score-summary"></div>
+    <button class="btn-secondary" id="restart-btn" style="margin-top: 8px;">Try Again</button>
+  </div>
+</div>
 
-    let currentQuestionIndex = 0;
-    let score = 0;
-    let userOrderedList = [];
-    let selectedInequality = null;
-    let isCurrentAnswered = false;
-
-    const tierBadge = document.getElementById("tier-badge");
-    const qCounter = document.getElementById("q-counter");
-    const progressBar = document.getElementById("progress-bar");
-    const instructionText = document.getElementById("instruction-text");
-    const promptText = document.getElementById("prompt-text");
-    const interactiveZone = document.getElementById("interactive-zone");
-    const feedbackMessage = document.getElementById("feedback-message");
-    const checkBtn = document.getElementById("check-btn");
-    const nextBtn = document.getElementById("next-btn");
-    const resetBtn = document.getElementById("reset-btn");
-    const quizScreen = document.getElementById("quiz-screen");
-    const summaryScreen = document.getElementById("summary-screen");
-    const finalScore = document.getElementById("final-score");
-    const summaryComment = document.getElementById("summary-comment");
-    const restartBtn = document.getElementById("restart-btn");
-
-    function shuffleArray(array) {
-      const arr = [...array];
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
+<script>
+(function() {
+  const questions = [
+    {
+      category: "Ordering Decimals",
+      prompt: "Put the following in ascending order (smallest to largest):<br><strong>0.12, 0.03, 0.05, 0.2, 0.14</strong>",
+      options: [
+        "0.03, 0.05, 0.12, 0.14, 0.2",
+        "0.03, 0.05, 0.2, 0.12, 0.14",
+        "0.2, 0.03, 0.05, 0.12, 0.14",
+        "0.03, 0.05, 0.12, 0.2, 0.14"
+      ],
+      correctIndex: 0,
+      explanation: "Writing all with two decimal places: 0.03, 0.05, 0.12, 0.14, 0.20. Hence, 0.03, 0.05, 0.12, 0.14, 0.2."
+    },
+    {
+      category: "Ordering Decimals",
+      prompt: "Put the following in ascending order:<br><strong>0.14, 0.014, 0.1401, 0.44, 0.41</strong>",
+      options: [
+        "0.014, 0.14, 0.44, 0.41, 0.1401",
+        "0.014, 0.14, 0.1401, 0.41, 0.44",
+        "0.14, 0.014, 0.1401, 0.41, 0.44",
+        "0.014, 0.1401, 0.14, 0.41, 0.44"
+      ],
+      correctIndex: 1,
+      explanation: "Comparing digit by digit: 0.014 (thousandths), then 0.1400, then 0.1401, then 0.4100, then 0.4400."
+    },
+    {
+      category: "Ordering Decimals",
+      prompt: "Put the following in ascending order:<br><strong>0.05, -0.50, 0.15, -0.51, 0.51</strong>",
+      options: [
+        "-0.50, -0.51, 0.05, 0.15, 0.51",
+        "-0.51, -0.50, 0.15, 0.05, 0.51",
+        "-0.51, -0.50, 0.05, 0.15, 0.51",
+        "0.05, 0.15, 0.51, -0.50, -0.51"
+      ],
+      correctIndex: 2,
+      explanation: "For negative numbers, -0.51 is smaller than -0.50. The positives are 0.05 < 0.15 < 0.51. Thus: -0.51, -0.50, 0.05, 0.15, 0.51."
+    },
+    {
+      category: "Inequality Symbols",
+      prompt: "Fill in the missing symbol: <strong>12 ____ 9</strong>",
+      options: ["<", ">", "="],
+      correctIndex: 1,
+      explanation: "12 is greater than 9, so 12 > 9."
+    },
+    {
+      category: "Inequality Symbols",
+      prompt: "Fill in the missing symbol: <strong>-2 ____ -1.7</strong>",
+      options: ["<", ">", "="],
+      correctIndex: 0,
+      explanation: "On a number line, -2 is further to the left than -1.7, so -2 < -1.7."
+    },
+    {
+      category: "Inequality Symbols",
+      prompt: "Fill in the missing symbol: <strong>0.25 ____ <sup>1</sup>&frasl;<sub>4</sub></strong>",
+      options: ["<", ">", "="],
+      correctIndex: 2,
+      explanation: "1 ÷ 4 = 0.25. Since both represent the same value, 0.25 = 1/4."
+    },
+    {
+      category: "Ordering Mixed Formats",
+      prompt: "Put the following in ascending order:<br><strong><sup>3</sup>&frasl;<sub>5</sub>, 0.65, <sup>1</sup>&frasl;<sub>2</sub>, 0.58, <sup>7</sup>&frasl;<sub>10</sub></strong>",
+      options: [
+        "<sup>1</sup>&frasl;<sub>2</sub>, 0.58, <sup>3</sup>&frasl;<sub>5</sub>, 0.65, <sup>7</sup>&frasl;<sub>10</sub>",
+        "0.58, <sup>1</sup>&frasl;<sub>2</sub>, <sup>3</sup>&frasl;<sub>5</sub>, 0.65, <sup>7</sup>&frasl;<sub>10</sub>",
+        "<sup>1</sup>&frasl;<sub>2</sub>, <sup>3</sup>&frasl;<sub>5</sub>, 0.58, 0.65, <sup>7</sup>&frasl;<sub>10</sub>",
+        "<sup>1</sup>&frasl;<sub>2</sub>, 0.58, <sup>3</sup>&frasl;<sub>5</sub>, <sup>7</sup>&frasl;<sub>10</sub>, 0.65"
+      ],
+      correctIndex: 0,
+      explanation: "Convert all to decimals: 3/5 = 0.60, 1/2 = 0.50, 7/10 = 0.70. Ascending order: 0.50 (1/2), 0.58, 0.60 (3/5), 0.65, 0.70 (7/10)."
+    },
+    {
+      category: "Ordering Mixed Formats",
+      prompt: "Put the following in ascending order:<br><strong>-0.4, -<sup>3</sup>&frasl;<sub>4</sub>, 35%, -<sup>1</sup>&frasl;<sub>2</sub>, 0.3</strong>",
+      options: [
+        "-0.4, -<sup>1</sup>&frasl;<sub>2</sub>, -<sup>3</sup>&frasl;<sub>4</sub>, 0.3, 35%",
+        "-<sup>3</sup>&frasl;<sub>4</sub>, -<sup>1</sup>&frasl;<sub>2</sub>, -0.4, 0.3, 35%",
+        "-<sup>3</sup>&frasl;<sub>4</sub>, -0.4, -<sup>1</sup>&frasl;<sub>2</sub>, 0.3, 35%",
+        "-<sup>1</sup>&frasl;<sub>2</sub>, -<sup>3</sup>&frasl;<sub>4</sub>, -0.4, 35%, 0.3"
+      ],
+      correctIndex: 1,
+      explanation: "Convert to decimals: -0.4, -3/4 = -0.75, 35% = 0.35, -1/2 = -0.5, 0.3. Ordered: -0.75 (-3/4), -0.5 (-1/2), -0.4, 0.3, 0.35 (35%)."
+    },
+    {
+      category: "Ordering Mixed Formats",
+      prompt: "Put the following in ascending order:<br><strong>-<sup>2</sup>&frasl;<sub>3</sub>, 68%, -0.62, <sup>5</sup>&frasl;<sub>8</sub>, -65%</strong>",
+      options: [
+        "-0.62, -65%, -<sup>2</sup>&frasl;<sub>3</sub>, <sup>5</sup>&frasl;<sub>8</sub>, 68%",
+        "-<sup>2</sup>&frasl;<sub>3</sub>, -0.62, -65%, <sup>5</sup>&frasl;<sub>8</sub>, 68%",
+        "-<sup>2</sup>&frasl;<sub>3</sub>, -65%, -0.62, 68%, <sup>5</sup>&frasl;<sub>8</sub>",
+        "-<sup>2</sup>&frasl;<sub>3</sub>, -65%, -0.62, <sup>5</sup>&frasl;<sub>8</sub>, 68%"
+      ],
+      correctIndex: 3,
+      explanation: "Convert to decimals: -2/3 ≈ -0.6667, 68% = 0.68, -0.62, 5/8 = 0.625, -65% = -0.65. Ordered: -2/3, -65%, -0.62, 5/8, 68%."
+    },
+    {
+      category: "Ordering Mixed Formats",
+      prompt: "Put the following in ascending order:<br><strong>0.4, 45%, <sup>3</sup>&frasl;<sub>8</sub>, 0.35</strong>",
+      options: [
+        "0.35, <sup>3</sup>&frasl;<sub>8</sub>, 0.4, 45%",
+        "<sup>3</sup>&frasl;<sub>8</sub>, 0.35, 0.4, 45%",
+        "0.35, 0.4, <sup>3</sup>&frasl;<sub>8</sub>, 45%",
+        "0.35, <sup>3</sup>&frasl;<sub>8</sub>, 45%, 0.4"
+      ],
+      correctIndex: 0,
+      explanation: "Convert to decimals: 0.4, 45% = 0.45, 3/8 = 0.375, 0.35. Ordered: 0.35, 0.375 (3/8), 0.4, 0.45 (45%)."
     }
+  ];
 
-    function loadQuestion(index) {
-      const q = quizData[index];
-      isCurrentAnswered = false;
-      userOrderedList = [];
-      selectedInequality = null;
+  let currentIdx = 0;
+  let score = 0;
+  let answered = false;
 
-      qCounter.textContent = (index + 1) + " / " + quizData.length;
-      progressBar.style.width = (((index + 1) / quizData.length) * 100) + "%";
+  const progressTag = document.getElementById("progress-tag");
+  const instructionText = document.getElementById("instruction-text");
+  const questionText = document.getElementById("question-text");
+  const optionsGrid = document.getElementById("options-grid");
+  const feedbackBanner = document.getElementById("feedback-banner");
+  const nextBtn = document.getElementById("next-btn");
+  const quizScreen = document.getElementById("quiz-screen");
+  const scoreView = document.getElementById("score-view");
+  const finalScore = document.getElementById("final-score");
+  const scoreSummary = document.getElementById("score-summary");
+  const restartBtn = document.getElementById("restart-btn");
 
-      tierBadge.textContent = q.tier;
-      tierBadge.className = "tier-badge";
-      if (q.tier === "Easy") tierBadge.classList.add("tier-easy");
-      else if (q.tier === "Medium") tierBadge.classList.add("tier-medium");
-      else tierBadge.classList.add("tier-hard");
+  const letters = ["A", "B", "C", "D"];
 
-      instructionText.textContent = q.instruction;
-      promptText.textContent = q.prompt;
-      feedbackMessage.textContent = "";
-      feedbackMessage.className = "feedback-box";
+  function loadQuestion(idx) {
+    answered = false;
+    const q = questions[idx];
+    progressTag.textContent = "Question " + (idx + 1) + " of " + questions.length;
+    instructionText.textContent = q.category === "Inequality Symbols" 
+      ? "Select the correct inequality symbol:" 
+      : "Select the option with the values in ascending order:";
+    questionText.innerHTML = q.prompt;
+    optionsGrid.innerHTML = "";
+    feedbackBanner.style.display = "none";
+    feedbackBanner.className = "feedback-banner";
+    nextBtn.style.display = "none";
 
-      checkBtn.style.display = "inline-block";
-      checkBtn.disabled = false;
-      nextBtn.style.display = "none";
-      interactiveZone.innerHTML = "";
+    q.options.forEach(function(optText, optIdx) {
+      const card = document.createElement("div");
+      card.className = "option-card";
+      
+      const indicator = document.createElement("span");
+      indicator.className = "option-indicator";
+      indicator.textContent = letters[optIdx] || String(optIdx + 1);
 
-      if (q.type === "order-asc" || q.type === "order-desc") {
-        renderOrderingUI(q);
-      } else if (q.type === "inequality") {
-        renderInequalityUI(q);
-      }
-    }
+      const label = document.createElement("span");
+      label.innerHTML = optText;
 
-    function renderOrderingUI(q) {
-      const shuffled = shuffleArray(q.items);
+      card.appendChild(indicator);
+      card.appendChild(label);
 
-      const targetArea = document.createElement("div");
-      targetArea.style.marginBottom = "14px";
-      targetArea.innerHTML = '<div style="font-size:0.75rem; color:#64748b; font-weight:600; text-transform:uppercase; margin-bottom:6px; text-align:center;">Your Ordered Sequence:</div>';
-
-      const slotRow = document.createElement("div");
-      slotRow.className = "slot-row";
-      slotRow.id = "ordered-slots";
-
-      for (let i = 0; i < q.items.length; i++) {
-        const slot = document.createElement("div");
-        slot.className = "slot";
-        slot.dataset.index = i;
-        slot.textContent = "—";
-        slotRow.appendChild(slot);
-      }
-      targetArea.appendChild(slotRow);
-
-      const sourceArea = document.createElement("div");
-      sourceArea.innerHTML = '<div style="font-size:0.75rem; color:#64748b; font-weight:600; text-transform:uppercase; margin-bottom:6px; text-align:center;">Available Values:</div>';
-
-      const tokenWrap = document.createElement("div");
-      tokenWrap.className = "tokens-container";
-      tokenWrap.id = "source-tokens";
-
-      shuffled.forEach((item, idx) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "token";
-        btn.dataset.index = idx;
-        btn.dataset.val = item.val;
-        btn.innerHTML = item.text;
-        btn.dataset.raw = item.rawText || item.text;
-
-        btn.onclick = function () {
-          handleTokenClick(btn, item);
-        };
-        tokenWrap.appendChild(btn);
-      });
-      sourceArea.appendChild(tokenWrap);
-
-      interactiveZone.appendChild(targetArea);
-      interactiveZone.appendChild(sourceArea);
-    }
-
-    function handleTokenClick(btn, item) {
-      if (isCurrentAnswered) return;
-
-      const existingIndex = userOrderedList.findIndex(e => e.item === item);
-
-      if (existingIndex !== -1) {
-        userOrderedList.splice(existingIndex, 1);
-        btn.classList.remove("selected");
-      } else {
-        userOrderedList.push({ item, btn });
-        btn.classList.add("selected");
-      }
-      updateSlots();
-    }
-
-    function updateSlots() {
-      const q = quizData[currentQuestionIndex];
-      const slotRow = document.getElementById("ordered-slots");
-      if (!slotRow) return;
-
-      const slots = slotRow.getElementsByClassName("slot");
-
-      for (let i = 0; i < q.items.length; i++) {
-        const slot = slots[i];
-        if (userOrderedList[i]) {
-          slot.innerHTML = userOrderedList[i].item.text;
-          slot.classList.add("filled");
-          slot.onclick = function () {
-            if (isCurrentAnswered) return;
-            const itemObj = userOrderedList[i];
-            itemObj.btn.classList.remove("selected");
-            userOrderedList.splice(i, 1);
-            updateSlots();
-          };
-        } else {
-          slot.innerHTML = "—";
-          slot.classList.remove("filled");
-          slot.onclick = null;
-        }
-      }
-    }
-
-    function renderInequalityUI(q) {
-      const compWrap = document.createElement("div");
-      compWrap.className = "comparison-display";
-
-      const leftVal = document.createElement("div");
-      leftVal.innerHTML = q.left.text;
-
-      const middleSlot = document.createElement("div");
-      middleSlot.className = "symbol-placeholder";
-      middleSlot.id = "symbol-slot";
-      middleSlot.textContent = "?";
-
-      const rightVal = document.createElement("div");
-      rightVal.innerHTML = q.right.text;
-
-      compWrap.appendChild(leftVal);
-      compWrap.appendChild(middleSlot);
-      compWrap.appendChild(rightVal);
-
-      const symbolsWrap = document.createElement("div");
-      symbolsWrap.className = "symbols-options";
-
-      const symbols = ["<", "=", ">"];
-      symbols.forEach(sym => {
-        const sBtn = document.createElement("button");
-        sBtn.type = "button";
-        sBtn.className = "symbol-choice-btn";
-        sBtn.textContent = sym;
-        sBtn.onclick = function () {
-          if (isCurrentAnswered) return;
-          selectedInequality = sym;
-          middleSlot.textContent = sym;
-          const allButtons = symbolsWrap.getElementsByClassName("symbol-choice-btn");
-          for (let b of allButtons) b.classList.remove("selected");
-          sBtn.classList.add("selected");
-        };
-        symbolsWrap.appendChild(sBtn);
+      card.addEventListener("click", function() {
+        if (answered) return;
+        selectOption(optIdx);
       });
 
-      interactiveZone.appendChild(compWrap);
-      interactiveZone.appendChild(symbolsWrap);
+      optionsGrid.appendChild(card);
+    });
+  }
+
+  function selectOption(selectedIdx) {
+    answered = true;
+    const q = questions[currentIdx];
+    const cards = optionsGrid.querySelectorAll(".option-card");
+
+    cards.forEach(function(c) {
+      c.classList.add("disabled");
+    });
+
+    if (selectedIdx === q.correctIndex) {
+      score++;
+      cards[selectedIdx].classList.add("correct");
+      feedbackBanner.className = "feedback-banner correct";
+      feedbackBanner.innerHTML = "<strong>Correct!</strong> " + q.explanation;
+    } else {
+      cards[selectedIdx].classList.add("incorrect");
+      cards[q.correctIndex].classList.add("correct");
+      feedbackBanner.className = "feedback-banner incorrect";
+      feedbackBanner.innerHTML = "<strong>Incorrect.</strong> " + q.explanation;
     }
 
-    function checkAnswer() {
-      const q = quizData[currentQuestionIndex];
-      feedbackMessage.className = "feedback-box";
+    feedbackBanner.style.display = "block";
+    nextBtn.style.display = "inline-block";
+  }
 
-      if (q.type === "order-asc" || q.type === "order-desc") {
-        if (userOrderedList.length < q.items.length) {
-          feedbackMessage.classList.add("warning");
-          feedbackMessage.textContent = "Please place all " + q.items.length + " values into the sequence before checking.";
-          return;
-        }
-
-        const isAscending = (q.type === "order-asc");
-        const sortedCorrectly = [...q.items].sort((a, b) => isAscending ? a.val - b.val : b.val - a.val);
-
-        let correct = true;
-        for (let i = 0; i < sortedCorrectly.length; i++) {
-          if (Math.abs(userOrderedList[i].item.val - sortedCorrectly[i].val) > 0.00001) {
-            correct = false;
-            break;
-          }
-        }
-
-        isCurrentAnswered = true;
-        checkBtn.style.display = "none";
-        nextBtn.style.display = "inline-block";
-
-        if (correct) {
-          score++;
-          feedbackMessage.classList.add("success");
-          feedbackMessage.textContent = "Correct! You ordered the values accurately.";
-        } else {
-          feedbackMessage.classList.add("error");
-          const correctTextList = sortedCorrectly.map(x => x.rawText || x.text.replace(/<[^>]*>?/gm, "")).join(", ");
-          feedbackMessage.textContent = "Incorrect. The correct sequence is: " + correctTextList;
-        }
-      } else if (q.type === "inequality") {
-        if (!selectedInequality) {
-          feedbackMessage.classList.add("warning");
-          feedbackMessage.textContent = "Please select one of the inequality symbols (<, =, >).";
-          return;
-        }
-
-        let expectedSymbol = "=";
-        const diff = q.left.val - q.right.val;
-        if (diff < -0.000001) expectedSymbol = "<";
-        else if (diff > 0.000001) expectedSymbol = ">";
-
-        isCurrentAnswered = true;
-        checkBtn.style.display = "none";
-        nextBtn.style.display = "inline-block";
-
-        if (selectedInequality === expectedSymbol) {
-          score++;
-          feedbackMessage.classList.add("success");
-          feedbackMessage.textContent = "Correct! " + (q.left.rawText || q.left.text.replace(/<[^>]*>?/gm, "")) + " " + expectedSymbol + " " + (q.right.rawText || q.right.text.replace(/<[^>]*>?/gm, "")) + " is true.";
-        } else {
-          feedbackMessage.classList.add("error");
-          feedbackMessage.textContent = "Incorrect. The correct symbol is '" + expectedSymbol + "'. (" + q.left.val + " vs " + q.right.val + ")";
-        }
-      }
+  nextBtn.addEventListener("click", function() {
+    currentIdx++;
+    if (currentIdx < questions.length) {
+      loadQuestion(currentIdx);
+    } else {
+      showResults();
     }
+  });
 
-    function handleReset() {
-      loadQuestion(currentQuestionIndex);
+  function showResults() {
+    quizScreen.style.display = "none";
+    scoreView.style.display = "flex";
+    finalScore.textContent = score + " / " + questions.length;
+    const pct = Math.round((score / questions.length) * 100);
+    if (pct >= 80) {
+      scoreSummary.textContent = "Outstanding work! You have mastered ordering decimals, fractions, percentages, and inequalities.";
+    } else if (pct >= 50) {
+      scoreSummary.textContent = "Good effort! Revise negative decimals and fraction-to-decimal conversions for further improvement.";
+    } else {
+      scoreSummary.textContent = "Keep practising! Remember to convert all numbers to decimals with matching place values before ordering.";
     }
+  }
 
-    function handleNext() {
-      currentQuestionIndex++;
-      if (currentQuestionIndex < quizData.length) {
-        loadQuestion(currentQuestionIndex);
-      } else {
-        showSummary();
-      }
-    }
-
-    function showSummary() {
-      quizScreen.style.display = "none";
-      summaryScreen.style.display = "block";
-      progressBar.style.width = "100%";
-      qCounter.textContent = "Complete";
-
-      finalScore.textContent = score + " / " + quizData.length;
-
-      if (score === 10) {
-        summaryComment.textContent = "Outstanding! Full marks across all Easy, Medium, and Hard ordering questions.";
-      } else if (score >= 7) {
-        summaryComment.textContent = "Great job! You have a solid grasp of ordering decimals, fractions, percentages, and inequalities.";
-      } else if (score >= 4) {
-        summaryComment.textContent = "Good effort! Revise converting fractions and percentages into decimals with equal decimal places.";
-      } else {
-        summaryComment.textContent = "Keep practicing! Lining up decimal points with column place values makes comparison much easier.";
-      }
-    }
-
-    function restartQuiz() {
-      score = 0;
-      currentQuestionIndex = 0;
-      summaryScreen.style.display = "none";
-      quizScreen.style.display = "block";
-      loadQuestion(0);
-    }
-
-    // Attach programmatic listeners (No inline events)
-    checkBtn.onclick = checkAnswer;
-    nextBtn.onclick = handleNext;
-    resetBtn.onclick = handleReset;
-    restartBtn.onclick = restartQuiz;
-
-    // Initialise on load
+  restartBtn.addEventListener("click", function() {
+    currentIdx = 0;
+    score = 0;
+    quizScreen.style.display = "block";
+    scoreView.style.display = "none";
     loadQuestion(0);
-  </script>
+  });
+
+  loadQuestion(0);
+})();
+</script>
+
 </body>
 </html>
